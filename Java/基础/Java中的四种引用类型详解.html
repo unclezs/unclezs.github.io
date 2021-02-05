@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  <meta name="sogou_site_verification" content="Ig9jrB4dqD"/>
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+
+  <!-- 页面元数据 -->
+  
+  <title>Java中的四种引用类型详解 - Unclezs</title>
+  
+    <meta name="keywords" content="引用类型,虚引用,弱引用">
+  
+
+  
+    <meta name="description" content="Java中的4中引用类型分别为强引用(Strong Reference)，软引用(Soft Reference)，弱引用(Weak Reference)和虚引用(Phantom Reference)">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Unclezs" type="application/atom+xml">
+  
+
+  <!-- import meta -->
+  
+  <!-- link -->
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css">
+
+  
+  
+
+
+  
+
+  
+  <!-- import link -->
+  
+    
+      
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.2.0/styles/atom-one-dark.css">
+
+    
+  
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- 谷歌分析 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFN05GYC6"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TTFN05GYC6');
+  </script>
+  <!-- 脚本懒加载函数 -->
+  <script>
+    function loadScript(src, cb) {
+      var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+      var script = document.createElement('script');
+      script.setAttribute('type','text/javascript');
+      if (cb) script.onload = cb;
+      script.setAttribute('src', src);
+      HEAD.appendChild(script);
+    }
+    //https://github.com/filamentgroup/loadCSS
+    !function(c){"use strict";var e=function(e,t,n,r){var o,i=c.document,a=i.createElement("link");if(t)o=t;else{var d=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=d[d.length-1]}var f=i.styleSheets;if(r)for(var l in r)r.hasOwnProperty(l)&&a.setAttribute(l,r[l]);a.rel="stylesheet",a.href=e,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var s=function(e){for(var t=a.href,n=f.length;n--;)if(f[n].href===t)return e();setTimeout(function(){s(e)})};function u(){a.addEventListener&&a.removeEventListener("load",u),a.media=n||"all"}return a.addEventListener&&a.addEventListener("load",u),(a.onloadcssdefined=s)(u),a};"undefined"!=typeof exports?exports.loadCSS=e:c.loadCSS=e}("undefined"!=typeof global?global:this);
+  </script>
+  <script id="loadcss"></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <header class="l_header always shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Unclezs
+          
+        </a>
+      
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div class="l_body">
+    <div class="l_cover">
+    </div>
+    <div class='safearea'>
+      <div class='body-wrapper'>
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  <div class="article-meta" id="top">
+    
+      <h1 class="title">
+        Java中的四种引用类型详解
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年12月17日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Java中的四种引用类型详解" data-path="/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3.html">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：3.5k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：14分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <div id="nice">
+    <link   rel="stylesheet"  href="/css/post.css"/>
+    <h2 id="概念及应用场景"><a href="#概念及应用场景" class="headerlink" title="概念及应用场景"></a>概念及应用场景</h2><ul>
+<li>强引用：Java中的引用，默认都是强引用。比如new一个对象，对它的引用就是强引用。对于被强引用指向的对象，就算JVM内存不足OOM，也不会去回收它们。</li>
+<li>软引用：若一个对象只被软引用所引用，那么它将在JVM内存不足的时候被回收，即如果JVM内存足够，则软引用所指向的对象不会被垃圾回收(其实这个说法也不够准确，具体原因后面再说)。根据这个性质，软引用很适合做内存缓存：既能提高查询效率，也不会造成内存泄漏。</li>
+<li>弱引用：若一个对象只被弱引用所引用，那么它将在下一次GC中被回收掉。如ThreadLocal和WeakHashMap中都使用了弱引用，防止内存泄漏。</li>
+<li>虚引用：虚引用是四种引用中最弱的一种引用。我们永远无法从虚引用中拿到对象，被虚引用引用的对象就跟不存在一样。虚引用一般用来跟踪垃圾回收情况，或者可以完成垃圾收集器之外的一些定制化操作。Java NIO中的堆外内存(DirectByteBuffer)因为不受GC的管理，这些内存的清理就是通过虚引用来完成的。</li>
+<li>终结器引用：无需手动编码，但其内部配合引用队列使用，在垃圾回收时，终结器引用入队（被引用对象 暂时没有被回收），再由 Finalizer 线程通过终结器引用找到被引用对象并调用它的 finalize 方法，第二次 GC 时才能回收被引用对象<img src="https://gitee.com/unclezs/image-blog/raw/master///20201217150908.png" class="lazyload" data-srcset="https://gitee.com/unclezs/image-blog/raw/master///20201217150908.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="/>
+
+</li>
+</ul>
+<h2 id="引用队列"><a href="#引用队列" class="headerlink" title="引用队列"></a>引用队列</h2><p>引用队列(Reference Queue)是一个链表，顾名思义，存放的是引用对象(Reference对象)的队列。<br>软引用与弱引用可以和一个引用队列(Reference Queue)配合使用，当引用所指向的对象被垃圾回收之后，该引用对象本身会被添加到与之关联的引用队列中，从而方便后续一些跟踪或者额外的清理操作。<br>因为无法从虚引用中拿到目标对象，虚引用必须和一个引用队列(Reference Queue)配合使用。</p>
+<h2 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h2><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.unclezs.samples.java.reference;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+
+<span class="hljs-keyword">import</span> java.lang.ref.PhantomReference;
+<span class="hljs-keyword">import</span> java.lang.ref.Reference;
+<span class="hljs-keyword">import</span> java.lang.ref.ReferenceQueue;
+<span class="hljs-keyword">import</span> java.lang.ref.SoftReference;
+<span class="hljs-keyword">import</span> java.lang.ref.WeakReference;
+<span class="hljs-keyword">import</span> java.util.Arrays;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 几种引用类型测试</span>
+<span class="hljs-comment"> * &lt;p&gt;</span>
+<span class="hljs-comment"> * 指定VM参数 -Xms20m -Xmx20m -XX:+PrintGCDetails -verbose:gc</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zhanghongguo@sensorsdata.cn</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@since</span> 2020/12/17 13:56</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Slf4j</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReferenceSamples</span> </span>&#123;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE1MB = <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE1KB = <span class="hljs-number">1024</span>;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+    <span class="hljs-comment">// 引用队列，存放Reference对象</span>
+    ReferenceQueue&lt;Byte[]&gt; queue = <span class="hljs-keyword">new</span> ReferenceQueue&lt;&gt;();
+    <span class="hljs-comment">// 定义四种引用对象，强/弱/虚引用为1kb，软引用为1mb</span>
+    Byte[] strong = <span class="hljs-keyword">new</span> Byte[SIZE1KB];
+    SoftReference&lt;Byte[]&gt; soft = <span class="hljs-keyword">new</span> SoftReference&lt;&gt;(<span class="hljs-keyword">new</span> Byte[SIZE1MB * <span class="hljs-number">10</span>], queue);
+    WeakReference&lt;Byte[]&gt; weak = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(<span class="hljs-keyword">new</span> Byte[SIZE1KB], queue);
+    PhantomReference&lt;Byte[]&gt; phantom = <span class="hljs-keyword">new</span> PhantomReference&lt;&gt;(<span class="hljs-keyword">new</span> Byte[SIZE1KB], queue);
+
+    Reference&lt;? extends Byte[]&gt; collectedReference;
+    <span class="hljs-comment">// 初始状态</span>
+    log.info(<span class="hljs-string">&quot;初始值 强引用： &#123;&#125;&quot;</span>, Arrays.hashCode(strong));
+    log.info(<span class="hljs-string">&quot;初始值 软引用： &#123;&#125;&quot;</span>, Arrays.hashCode(soft.get()));
+    log.info(<span class="hljs-string">&quot;初始值 弱引用： &#123;&#125;&quot;</span>, Arrays.hashCode(weak.get()));
+    log.info(<span class="hljs-string">&quot;初始值 虚引用： &#123;&#125;&quot;</span>, Arrays.hashCode(phantom.get()));
+    <span class="hljs-keyword">do</span> &#123;
+      collectedReference = queue.poll();
+      log.info(<span class="hljs-string">&quot;初始值 引用队列： &quot;</span> + collectedReference);
+    &#125; <span class="hljs-keyword">while</span> (collectedReference != <span class="hljs-keyword">null</span>);
+    log.info(<span class="hljs-string">&quot;********************&quot;</span>);
+    <span class="hljs-comment">// 第一次手动触发GC</span>
+    System.gc();
+    <span class="hljs-comment">// 停100ms保证垃圾回收已经执行</span>
+    Thread.sleep(<span class="hljs-number">100</span>);
+
+    log.info(<span class="hljs-string">&quot;GC后 强引用： &#123;&#125;&quot;</span>, Arrays.hashCode(strong));
+    log.info(<span class="hljs-string">&quot;GC后 软引用： &#123;&#125;&quot;</span>, Arrays.hashCode(soft.get()));
+    log.info(<span class="hljs-string">&quot;GC后 弱引用： &#123;&#125;&quot;</span>, Arrays.hashCode(weak.get()));
+    log.info(<span class="hljs-string">&quot;GC后 虚引用： &#123;&#125;&quot;</span>, Arrays.hashCode(phantom.get()));
+    <span class="hljs-keyword">do</span> &#123;
+      collectedReference = queue.poll();
+      log.info(<span class="hljs-string">&quot;GC后 引用队列： &quot;</span> + collectedReference);
+    &#125;
+    <span class="hljs-keyword">while</span> (collectedReference != <span class="hljs-keyword">null</span>);
+    log.info(<span class="hljs-string">&quot;********************&quot;</span>);
+
+    <span class="hljs-comment">// 再分配1M的内存，以模拟OOM的情况</span>
+    Byte[] newByte = <span class="hljs-keyword">new</span> Byte[SIZE1MB * <span class="hljs-number">15</span>];
+
+    log.info(<span class="hljs-string">&quot;Full GC后 强引用： &#123;&#125;&quot;</span>, Arrays.hashCode(strong));
+    log.info(<span class="hljs-string">&quot;Full GC后 软引用： &#123;&#125;&quot;</span>, Arrays.hashCode(soft.get()));
+    log.info(<span class="hljs-string">&quot;Full GC后 弱引用： &#123;&#125;&quot;</span>, Arrays.hashCode(weak.get()));
+    log.info(<span class="hljs-string">&quot;Full GC失败后 虚引用： &#123;&#125;&quot;</span>, Arrays.hashCode(phantom.get()));
+    <span class="hljs-keyword">do</span> &#123;
+      collectedReference = queue.poll();
+      log.info(<span class="hljs-string">&quot;Full GC失败后 引用队列： &quot;</span> + collectedReference);
+    &#125;
+    <span class="hljs-keyword">while</span> (collectedReference != <span class="hljs-keyword">null</span>);
+  &#125;
+&#125;</code></pre>
+
+<img src="https://gitee.com/unclezs/image-blog/raw/master///20201217143337.png" class="lazyload" data-srcset="https://gitee.com/unclezs/image-blog/raw/master///20201217143337.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="/>
+
+<p>注意设置VM参数，每个机器不一样，你可以试着调试到合适自己的。</p>
+<ul>
+<li>初始状态下，虚引用用就返回null，其他三个引用都有值。</li>
+<li>当触发GC之后，弱引用指向的对象也被回收了，而且可以看到弱引用和虚引用两个引用对象被加到了它们相关联的引用队列中了；强引用和软引用还是可以取到值。</li>
+<li>当JVM内存不足之后，软引用也被内存回收了（可以看到软引用，第一次gc后还是内存不足，第二次gc时候，回收了软引用对象），同时该软引用也被加到了与之关联的引用队列中了。而强引用依然能取到值。</li>
+</ul>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h3 id="Reference类"><a href="#Reference类" class="headerlink" title="Reference类"></a>Reference类</h3><p>弱引用，软引用和虚引用都继承自Reference类，我们从Reference类看起</p>
+<pre><code class="hljs java"><span class="hljs-comment">// 此Reference对象可能会有四种状态：active, pending, enqueued, inactive</span>
+<span class="hljs-comment">// avtive: 新创建的对象状态是active</span>
+<span class="hljs-comment">// pending: 当Reference所指向的对象不可达，并且Reference与一个引用队列关联，那么垃圾收集器</span>
+<span class="hljs-comment">//     会将Reference标记为pending，并且会将之加到pending队列里面</span>
+<span class="hljs-comment">// enqueued: 当Reference从pending队列中，移到引用队列中之后，就是enqueued状态</span>
+<span class="hljs-comment">// inactive: 如果Reference所指向的对象不可达，并且Reference没有与引用队列关联，Reference</span>
+<span class="hljs-comment">//     从引用队列移除之后，变为inactive状态。inactive就是最终状态</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-comment">// 该对象就是Reference所指向的对象，垃圾收集器会对此对象做特殊处理。</span>
+    <span class="hljs-keyword">private</span> T referent;         <span class="hljs-comment">/* Treated specially by GC */</span>
+    <span class="hljs-comment">// Reference相关联的引用队列</span>
+    <span class="hljs-keyword">volatile</span> ReferenceQueue&lt;? <span class="hljs-keyword">super</span> T&gt; queue;
+    <span class="hljs-comment">// 当Reference是active时，next为null</span>
+    <span class="hljs-comment">// 当该Reference处于引用队列中时，next指向队列中的下一个Reference</span>
+    <span class="hljs-comment">// 其他情况next指向this，即自己</span>
+    <span class="hljs-comment">// 垃圾收集器只需判断next是不是为null，来看是否需要对此Reference做特殊处理</span>
+    <span class="hljs-keyword">volatile</span> Reference next;
+    <span class="hljs-comment">// 当Reference在pending队列中时，该值指向下一个队列中Reference对象</span>
+    <span class="hljs-comment">// 另外垃圾收集器在GC过程中，也会用此对象做标记</span>
+    <span class="hljs-keyword">transient</span> <span class="hljs-keyword">private</span> Reference&lt;T&gt; discovered;  <span class="hljs-comment">/* used by VM */</span>
+
+    <span class="hljs-comment">// 锁对象</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lock</span> </span>&#123; &#125;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Lock lock = <span class="hljs-keyword">new</span> Lock();
+
+    <span class="hljs-comment">// pending队列，这里的pending是pending链表的队首元素，一般与上面的discovered变量一起使用</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Reference&lt;Object&gt; pending = <span class="hljs-keyword">null</span>;
+    <span class="hljs-comment">// 获取Reference指向的对象。默认返回referent对象</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.referent;
+    &#125;
+&#125;</code></pre>
+
+<p>Reference类跟垃圾收集器紧密关联，其状态变化如下图所示：</p>
+<img src="https://gitee.com/unclezs/image-blog/raw/master///20201217144032.png" class="lazyload" data-srcset="https://gitee.com/unclezs/image-blog/raw/master///20201217144032.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="/>
+
+<p>上述步骤大多数都是由GC线程来完成，其中Pending到Enqueued是用户线程来做的。Reference类中定义了一个子类ReferenceHandler，专门用来处理Pending状态的Reference。我们来看看它具体做了什么。</p>
+<h3 id="ReferenceHandler类"><a href="#ReferenceHandler类" class="headerlink" title="ReferenceHandler类"></a>ReferenceHandler类</h3><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-comment">// 静态块，主要逻辑是启动ReferenceHandler线程</span>
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-comment">// 创建ReferenceHandler线程</span>
+        ThreadGroup tg = Thread.currentThread().getThreadGroup();
+        <span class="hljs-keyword">for</span> (ThreadGroup tgn = tg; tgn != <span class="hljs-keyword">null</span>; tg = tgn, tgn = tg.getParent());
+            Thread handler = <span class="hljs-keyword">new</span> ReferenceHandler(tg, <span class="hljs-string">&quot;Reference Handler&quot;</span>);
+        <span class="hljs-comment">// 设置成守护线程，最高优先级，并启动</span>
+        handler.setPriority(Thread.MAX_PRIORITY);
+        handler.setDaemon(<span class="hljs-keyword">true</span>);
+        handler.start();
+        <span class="hljs-comment">// 访问控制</span>
+        SharedSecrets.setJavaLangRefAccess(<span class="hljs-keyword">new</span> JavaLangRefAccess() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">tryHandlePendingReference</span><span class="hljs-params">()</span> </span>&#123;
+                <span class="hljs-keyword">return</span> tryHandlePending(<span class="hljs-keyword">false</span>);
+            &#125;
+        &#125;);
+    &#125;
+
+    <span class="hljs-comment">// 内部类ReferenceHandler，用来处理Pending状态的Reference</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReferenceHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>&#123;
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureClassInitialized</span><span class="hljs-params">(Class&lt;?&gt; clazz)</span> </span>&#123;
+            <span class="hljs-keyword">try</span> &#123;
+                Class.forName(clazz.getName(), <span class="hljs-keyword">true</span>, clazz.getClassLoader());
+            &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+                <span class="hljs-keyword">throw</span> (Error) <span class="hljs-keyword">new</span> NoClassDefFoundError(e.getMessage()).initCause(e);
+            &#125;
+        &#125;
+        <span class="hljs-comment">// 静态块，确保InterruptedException和Cleaner已经被ClassLoader加载</span>
+        <span class="hljs-comment">// 因为后面会用到这两个类</span>
+        <span class="hljs-keyword">static</span> &#123;
+            ensureClassInitialized(InterruptedException.class);
+            ensureClassInitialized(Cleaner.class);
+        &#125;
+
+        ReferenceHandler(ThreadGroup g, String name) &#123;
+            <span class="hljs-keyword">super</span>(g, name);
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-comment">// 死循环调用tryHandlePending方法</span>
+            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;
+                tryHandlePending(<span class="hljs-keyword">true</span>);
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>Reference类在加载进JVM的时候，会启动ReferenceHandler线程，并将它设成最高优先级的守护线程，不断循环调用tryHandlePending方法。<br>接下来看tryHandlePending方法：</p>
+<pre><code class="hljs java"><span class="hljs-comment">// waitForNotify默认是true。</span>
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">tryHandlePending</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> waitForNotify)</span> </span>&#123;
+    Reference&lt;Object&gt; r;
+    Cleaner c;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">// 需要在同步块中进行</span>
+        <span class="hljs-keyword">synchronized</span> (lock) &#123;
+            <span class="hljs-comment">// 判断pending队列是否为空，pending是队首元素</span>
+            <span class="hljs-keyword">if</span> (pending != <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-comment">// 取到pending队列队首元素，赋值给r</span>
+                r = pending;
+                <span class="hljs-comment">// Cleaner类是Java NIO中专门用来清理堆外内存(DirectByteBufer)的类，这里对它做了特殊处理</span>
+                <span class="hljs-comment">// 当没有其他引用指向堆外内存时，与之关联的Cleaner会被加到pending队列中</span>
+                <span class="hljs-comment">// 如果该Reference是Cleaner实例，那么取到该Cleaner，后续可以做一些清理操作。</span>
+                c = r <span class="hljs-keyword">instanceof</span> Cleaner ? (Cleaner) r : <span class="hljs-keyword">null</span>;
+                <span class="hljs-comment">// r.discovered就是下一个元素</span>
+                <span class="hljs-comment">// 以下操作即为将队首元素从pending队列移除</span>
+                pending = r.discovered;
+                r.discovered = <span class="hljs-keyword">null</span>;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-comment">// 如果pending队列为空，则释放锁等待</span>
+                <span class="hljs-comment">// 当有Reference添加到pending队列中时，ReferenceHandler线程会从此处被唤醒</span>
+                <span class="hljs-keyword">if</span> (waitForNotify) &#123;
+                    lock.wait();
+                &#125;
+                <span class="hljs-keyword">return</span> waitForNotify;
+            &#125;
+        &#125;
+    &#125; <span class="hljs-keyword">catch</span> (OutOfMemoryError x) &#123;
+        <span class="hljs-comment">// OOM时，让出cpu</span>
+        Thread.yield();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125; <span class="hljs-keyword">catch</span> (InterruptedException x) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+    <span class="hljs-comment">// 给Cleaner的特殊处理，调用clean()方法，以释放与之关联的堆外内存</span>
+    <span class="hljs-keyword">if</span> (c != <span class="hljs-keyword">null</span>) &#123;
+        c.clean();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+    <span class="hljs-comment">// 此处，将此Reference加入到与之关联的引用队列</span>
+    ReferenceQueue&lt;? <span class="hljs-keyword">super</span> Object&gt; q = r.queue;
+    <span class="hljs-keyword">if</span> (q != ReferenceQueue.NULL) q.enqueue(r);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+&#125;</code></pre>
+
+<p>看到这里，豁然开朗。ReferenceHandler线程专门用来处理pending状态的Reference，跟GC线程组成类似生产者消费者的关系。当pending队列为空，则等待；当Reference关联的对象被回收，Reference被加入到pending队列中之后，ReferenceHandler线程会被唤醒来处理pending的Reference，主要做三件事：</p>
+<ul>
+<li>将该Reference从pending队列移除</li>
+<li>如果该Reference是Cleaner的实例，那么调用clean方法，释放堆外内存</li>
+<li>将Reference加入到与之关联的引用队列</li>
+</ul>
+<h2 id="软引用SoftReference"><a href="#软引用SoftReference" class="headerlink" title="软引用SoftReference"></a>软引用SoftReference</h2><pre><code class="hljs java"><span class="hljs-comment">// 相比WeakReference，它增加了两个时间戳，clock和timestamp</span>
+<span class="hljs-comment">// 这两个参数是实现他们内存回收上区别的关键</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SoftReference</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-comment">// 每次GC之后，若该引用指向的对象没有被回收，则垃圾收集器会将clock更新成当前时间</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> clock;
+    <span class="hljs-comment">// 每次调用get方法的时候，会更新该时间戳为clock值</span>
+    <span class="hljs-comment">// 所以该值保存的是上一次(最近一次)GC的时间戳</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> timestamp;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SoftReference</span><span class="hljs-params">(T referent)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent);
+        <span class="hljs-keyword">this</span>.timestamp = clock;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SoftReference</span><span class="hljs-params">(T referent, ReferenceQueue&lt;? <span class="hljs-keyword">super</span> T&gt; q)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent, q);
+        <span class="hljs-keyword">this</span>.timestamp = clock;
+    &#125;
+    <span class="hljs-comment">// 每次调用，更新timestamp的值，使之等于clock的值，即最近一次gc的时间</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;
+        T o = <span class="hljs-keyword">super</span>.get();
+        <span class="hljs-keyword">if</span> (o != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-keyword">this</span>.timestamp != clock)
+            <span class="hljs-keyword">this</span>.timestamp = clock;
+        <span class="hljs-keyword">return</span> o;
+    &#125;
+&#125;</code></pre>
+<p>SoftReference除了多了两个时间戳之外，跟WeakReference几乎没有区别，它是如何做到在内存不足时被回收这件事的呢？其实这是垃圾收集器干的活。垃圾收集器回收SoftReference所指向的对象，会看两个维度：</p>
+<ol>
+<li>SoftReference.timestamp有多老(距上一次GC过了多久)</li>
+<li>JVM的堆空闲空间有多大</li>
+</ol>
+<p>而具体什么时候回收SoftReference所指向的对象呢，可以参考如下公式：</p>
+<pre><code class="hljs plain">interval &lt;&#x3D; free_heap * ms_per_mb</code></pre>
+
+<p>其中interval为上一次GC与当前时间的差值，以毫秒为单位；free_heap为当前JVM中剩余的堆空间大小，以MB为单位；ms_per_mb可以理解为一个常数，即每兆空闲空间可维持的SoftReference的对象生存的时长，默认为1000，可以通过JVM参数-XX:SoftRefLRUPolicyMSPerMB设置。<br>如果上述表达式返回false，则清理SoftReference所指向的对象，并将该SoftReference加入到pending队列中；否则不做处理。所以说在JVM内存不足的时候回收软引用这个说法不是非常准确，只是个经验说法，软引用的回收，还跟它存活的时间有关，甚至跟JVM参数设置(-XX:SoftRefLRUPolicyMSPerMB)都有关系！</p>
+<h2 id="弱引用-WeakReference"><a href="#弱引用-WeakReference" class="headerlink" title="弱引用(WeakReference)"></a>弱引用(WeakReference)</h2><pre><code class="hljs java"><span class="hljs-comment">// 更加简单，只重写了两个构造方法</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WeakReference</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WeakReference</span><span class="hljs-params">(T referent)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WeakReference</span><span class="hljs-params">(T referent, ReferenceQueue&lt;? <span class="hljs-keyword">super</span> T&gt; q)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent, q);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="虚引用-PhantomReference"><a href="#虚引用-PhantomReference" class="headerlink" title="虚引用(PhantomReference)"></a>虚引用(PhantomReference)</h2><p>一般用于获取被回收的时候的通知，比如NIO的直接内存属于JVM之外的，就用了这个实现的 具体可以看Cleaner类</p>
+<pre><code class="hljs java"><span class="hljs-comment">// 灰常简单，只重写了一个构造方法，一个get方法</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PhantomReference</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-comment">// get方法永远返回null</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-comment">// 只提供了一个包含ReferenceQueue的构造方法，说明它必须和引用队列一起使用</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PhantomReference</span><span class="hljs-params">(T referent, ReferenceQueue&lt;? <span class="hljs-keyword">super</span> T&gt; q)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent, q);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="终结器引用（FinalReference-与-Finalizer）"><a href="#终结器引用（FinalReference-与-Finalizer）" class="headerlink" title="终结器引用（FinalReference 与 Finalizer）"></a>终结器引用（FinalReference 与 Finalizer）</h2><p>因为jvm只能管理jvm内存空间，但是对于应用运行时需要的其它native资源(jvm通过jni暴漏出来的功能)：例如直接内存DirectByteBuffer，网络连接SocksSocketImpl，文件流FileInputStream等与操作系统有交互的资源，jvm就无能为力了，需要我们自己来调用释放这些资源方法来释放，为了避免对象死了之后，程序员忘记手动释放这些资源，导致这些对象有的外部资源泄露，java提供了finalizer机制通过重写对象的finalizer方法，在这个方法里面执行释放对象占用的外部资源的操作，这样使用这些资源的程序员即使忘记手动释放，jvm也可以在回收对象之前帮助释放掉这些外部资源，帮助我们调用这个方法回收资源的线程就是我们在导出jvm线程栈时看到的名为Finalizer的守护线程；</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Final references, used to implement finalization</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FinalReference</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Reference</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">FinalReference</span><span class="hljs-params">(T referent, ReferenceQueue&lt;? <span class="hljs-keyword">super</span> T&gt; q)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(referent, q);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http%3A%2F%2Fjeremymanson.blogspot.com%2F2009%2F07%2Fhow-hotspot-decides-to-clear_07.html">How Hotspot Clear Softreference</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/csdn_life18/article/details/107338308">FinalReference类的功能</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/dhaibo1986/article/details/107314800">FinalReference和Finalizer的源码分析</a></p>
+
+  </div >
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a class='author' href="https://blog.unclezs.com" rel="nofollow">
+    <img no-lazy src="/img/avatar.png">
+    <p>Unclezs</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-17T13:43:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年12月17日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>引用类型</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%99%9A%E5%BC%95%E7%94%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>虚引用</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%BC%B1%E5%BC%95%E7%94%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>弱引用</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3&title=Java中的四种引用类型详解 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3.html&title=Java中的四种引用类型详解 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3.html&title=Java中的四种引用类型详解 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95MessageDigest.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Java中的摘要算法MessageDigest</p>
+        </a>
+      
+      
+        <a class='next' href='/Java/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/ThreadLocal%E4%B8%8EFastThreadLocal.html'>
+          <p class='title'>ThreadLocal与FastThreadLocal<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">概念及应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E9%98%9F%E5%88%97"><span class="toc-text">引用队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%B5%8B%E8%AF%95"><span class="toc-text">简单测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-text">源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference%E7%B1%BB"><span class="toc-text">Reference类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReferenceHandler%E7%B1%BB"><span class="toc-text">ReferenceHandler类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8SoftReference"><span class="toc-text">软引用SoftReference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8-WeakReference"><span class="toc-text">弱引用(WeakReference)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8-PhantomReference"><span class="toc-text">虚引用(PhantomReference)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%88%E7%BB%93%E5%99%A8%E5%BC%95%E7%94%A8%EF%BC%88FinalReference-%E4%B8%8E-Finalizer%EF%BC%89"><span class="toc-text">终结器引用（FinalReference 与 Finalizer）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-text">相关链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    
+      
+        <!-- <div class='copyright'>
+        </div> -->
+        <div>
+              Copyright © 2018-2021
+              <a href=" ">Unclezs  |</a> 
+              <img src="/img/icp.png" class="lazyload" data-srcset="/img/icp.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" style='margin-bottom: -4px;'/>渝ICP备18013963号-2 
+                <div>
+                   <a class="github-badge" href="https://hexo.io" target="_black" rel="nofollow" style="margin-right:5px">
+                        <span class="badge-subject"> Powered by</span>
+                        <span class="badge-value bg-blue"> Hexo</span>
+                   </a>
+                   <a class="github-badge" href="https://github.com/volantis-x/hexo-theme-volantis" target="_black">
+                        <span class="badge-subject"> Theme</span>
+                        <span class="badge-value bg-yellowgreen">Volantis</span>
+                  </a>
+                </div>
+        </div>
+      
+    
+  </footer>
+
+
+      <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+    <div class="tab_holder"></div>
+  </div>
+  <!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function fancybox() {
+    $("#nice").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $("#nice").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($("#nice").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = $.trim($('#pjax-comment-placeholder').text()) || "ヾﾉ≧∀≦)o来啊，快活啊";
+
+    let path = $.trim($('#pjax-comment-path').text());
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI",
+      appKey: "ugNSIgRXf5yc9u8YXQR6MBMu",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="/js/search.js"></script>
+
+  
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+(function ($) {
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+})(jQuery);
+
+</script>
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI',
+    app_key: 'ugNSIgRXf5yc9u8YXQR6MBMu',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://blog.unclezs.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+<!-- more -->
+
+
+  <tab class="l_tab">
+    
+            <a class="tab-item" href="/" id="tab-home">
+                <div class='fas fa-rss tab-icon'></div>
+                <div class="tab-text">
+                    博客
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/categories/" id="tab-categories">
+                <div class='fas fa-folder-open tab-icon'></div>
+                <div class="tab-text">
+                    分类
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/tags/" id="tab-tags">
+                <div class='fas fa-tags tab-icon'></div>
+                <div class="tab-text">
+                    标签
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/archives/" id="tab-archives">
+                <div class='fas fa-archive tab-icon'></div>
+                <div class="tab-text">
+                    归档
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/about/" id="tab-about">
+                <div class='fas fa-info-circle tab-icon'></div>
+                <div class="tab-text">
+                    关于
+                </div>
+            </a>
+    
+</tab>
+</body>
+</html>

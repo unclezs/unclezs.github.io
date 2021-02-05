@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  <meta name="sogou_site_verification" content="Ig9jrB4dqD"/>
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+
+  <!-- 页面元数据 -->
+  
+  <title>Lucen入门使用 - Unclezs</title>
+  
+    <meta name="keywords" content="Java,Lucen">
+  
+
+  
+    <meta name="description" content="Lucene是apache软件基金会4 jakarta项目组的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Unclezs" type="application/atom+xml">
+  
+
+  <!-- import meta -->
+  
+  <!-- link -->
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css">
+
+  
+  
+
+
+  
+
+  
+  <!-- import link -->
+  
+    
+      
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.2.0/styles/atom-one-dark.css">
+
+    
+  
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- 谷歌分析 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFN05GYC6"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TTFN05GYC6');
+  </script>
+  <!-- 脚本懒加载函数 -->
+  <script>
+    function loadScript(src, cb) {
+      var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+      var script = document.createElement('script');
+      script.setAttribute('type','text/javascript');
+      if (cb) script.onload = cb;
+      script.setAttribute('src', src);
+      HEAD.appendChild(script);
+    }
+    //https://github.com/filamentgroup/loadCSS
+    !function(c){"use strict";var e=function(e,t,n,r){var o,i=c.document,a=i.createElement("link");if(t)o=t;else{var d=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=d[d.length-1]}var f=i.styleSheets;if(r)for(var l in r)r.hasOwnProperty(l)&&a.setAttribute(l,r[l]);a.rel="stylesheet",a.href=e,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var s=function(e){for(var t=a.href,n=f.length;n--;)if(f[n].href===t)return e();setTimeout(function(){s(e)})};function u(){a.addEventListener&&a.removeEventListener("load",u),a.media=n||"all"}return a.addEventListener&&a.addEventListener("load",u),(a.onloadcssdefined=s)(u),a};"undefined"!=typeof exports?exports.loadCSS=e:c.loadCSS=e}("undefined"!=typeof global?global:this);
+  </script>
+  <script id="loadcss"></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <header class="l_header always shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Unclezs
+          
+        </a>
+      
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div class="l_body">
+    <div class="l_cover">
+    </div>
+    <div class='safearea'>
+      <div class='body-wrapper'>
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  <div class="article-meta" id="top">
+    
+      <h1 class="title">
+        Lucen入门使用
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/%E5%85%B6%E4%BB%96/">其他</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2019年4月11日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Lucen入门使用" data-path="/Java/%E5%85%B6%E4%BB%96/Lucen%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8.html">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：2.2k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：10分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <div id="nice">
+    <link   rel="stylesheet"  href="/css/post.css"/>
+    <h1 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h1><p>Lucene是apache软件基金会4 jakarta项目组的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。Lucene是一套用于全文检索和搜寻的开源程式库，由Apache软件基金会支持和提供。Lucene提供了一个简单却强大的应用程式接口，能够做全文索引和搜寻。在Java开发环境里Lucene是一个成熟的免费开源工具。就其本身而言，Lucene是当前以及最近几年最受欢迎的免费Java信息检索程序库。人们经常提到信息检索程序库，虽然与搜索引擎有关，但不应该将信息检索程序库与搜索引擎相混淆。</p>
+<h1 id="二、lucene实现全文检索流程"><a href="#二、lucene实现全文检索流程" class="headerlink" title="二、lucene实现全文检索流程"></a>二、lucene实现全文检索流程</h1><p><img src="https://img-blog.csdnimg.cn/20190411193346339.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyMDA2MTIw,size_16,color_FFFFFF,t_70" class="lazyload" data-srcset="https://img-blog.csdnimg.cn/20190411193346339.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyMDA2MTIw,size_16,color_FFFFFF,t_70" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="在这里插入图片描述"><br>1、绿色表示索引过程，对要搜索的原始内容进行索引构建一个索引库，索引过程包括：<br>确定原始内容即要搜索的内容 =&gt; 采集文档 =&gt; 创建文档=&gt;分析文档=&gt;索引文档</p>
+<p>2、红色表示搜索过程，从索引库中搜索内容，搜索过程包括：<br>用户通过搜索界面=&gt;创建查询=&gt;执行搜索，从索引库搜索=&gt;渲染搜索结果</p>
+<h1 id="三、基本使用"><a href="#三、基本使用" class="headerlink" title="三、基本使用"></a>三、基本使用</h1><h3 id="3-1-jar包"><a href="#3-1-jar包" class="headerlink" title="3.1 jar包"></a>3.1 jar包</h3><p>lucene-analyzers-common.jar<br>lucene-core.jar<br>ikAnalyzer.jar<br>lucene-queryparser.jar</p>
+<h4 id="3-2-创建索引"><a href="#3-2-创建索引" class="headerlink" title="3.2 创建索引"></a>3.2 创建索引</h4><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">create</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-comment">//指定索引库存放的路径</span>
+    FSDirectory fsDirectory = FSDirectory.open(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;D:\\java\\IDEA_WORKSPACE\\LuceneDomo\\index&quot;</span>).toPath());
+    <span class="hljs-comment">//使用IKAnalyzer分析器</span>
+    IndexWriterConfig config=<span class="hljs-keyword">new</span> IndexWriterConfig(<span class="hljs-keyword">new</span> IKAnalyzer());
+    <span class="hljs-comment">//创建indexwriter对象</span>
+    IndexWriter writer=<span class="hljs-keyword">new</span> IndexWriter(fsDirectory,config);
+    <span class="hljs-comment">//原始文档</span>
+    File[] files=<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;H:\\searchsource&quot;</span>).listFiles();
+    <span class="hljs-keyword">for</span> (File f:files)&#123;
+        String name = f.getName();
+        String path = f.getPath();
+        String content= FileUtils.readFileToString(f, <span class="hljs-string">&quot;utf-8&quot;</span>);
+        <span class="hljs-keyword">long</span> size = FileUtils.sizeOf(f);
+        <span class="hljs-comment">//创建域</span>
+        Field fName=<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;name&quot;</span>,name,Field.Store.YES);
+        Field fPath=<span class="hljs-keyword">new</span> StoredField(<span class="hljs-string">&quot;path&quot;</span>,path);
+        Field fContent=<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;content&quot;</span>,content,Field.Store.YES);
+        Field lSize=<span class="hljs-keyword">new</span> LongPoint(<span class="hljs-string">&quot;size&quot;</span>,size);
+        Field fSize=<span class="hljs-keyword">new</span> StoredField(<span class="hljs-string">&quot;size&quot;</span>,size);
+        <span class="hljs-comment">//存入域</span>
+        Document doc=<span class="hljs-keyword">new</span> Document();
+        doc.add(fName);
+        doc.add(fContent);
+        doc.add(fPath);
+        doc.add(fSize);
+        doc.add(lSize);
+        writer.addDocument(doc);
+    &#125;
+    writer.close();
+&#125;</code></pre>
+<h3 id="3-3-检索"><a href="#3-3-检索" class="headerlink" title="3.3 检索"></a>3.3 检索</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">search</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+       <span class="hljs-comment">//指定索引库存放的路径</span>
+       FSDirectory fsDirectory = FSDirectory.open(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;D:\\java\\IDEA_WORKSPACE\\LuceneDomo\\index&quot;</span>).toPath());
+       IndexReader reader= DirectoryReader.open(fsDirectory);
+       IndexSearcher searcher=<span class="hljs-keyword">new</span> IndexSearcher(reader);
+       Query query=<span class="hljs-keyword">new</span> TermQuery(<span class="hljs-keyword">new</span> Term(<span class="hljs-string">&quot;content&quot;</span>,<span class="hljs-string">&quot;spring&quot;</span>));
+       TopDocs docs = searcher.search(query, <span class="hljs-number">10</span>);
+       System.out.println(<span class="hljs-string">&quot;共记录：&quot;</span>+docs.totalHits);
+       <span class="hljs-keyword">for</span> (ScoreDoc doc:docs.scoreDocs)&#123;
+           <span class="hljs-keyword">int</span> id=doc.doc;
+           Document document = searcher.doc(id);
+           System.out.println(document.get(<span class="hljs-string">&quot;name&quot;</span>));
+           System.out.println(document.get(<span class="hljs-string">&quot;path&quot;</span>));
+       &#125;
+       reader.close();
+   &#125;</code></pre>
+<h1 id="四、分析器"><a href="#四、分析器" class="headerlink" title="四、分析器"></a>四、分析器</h1><h3 id="4-1-IkAnalyzer中文分析器（第三方）"><a href="#4-1-IkAnalyzer中文分析器（第三方）" class="headerlink" title="4.1. IkAnalyzer中文分析器（第三方）"></a>4.1. IkAnalyzer中文分析器（第三方）</h3><p>对中文支持比好，扩展性也好</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">analyzer</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+       Analyzer analyzer=<span class="hljs-keyword">new</span> IKAnalyzer();
+       TokenStream tokenStream = analyzer.tokenStream(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;们都是一些公开给别人尝试破解的小程序，制作 Crackme 的人可能是程序员，想测试一下自己的软件保护技术 &quot;</span>);
+       CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+       tokenStream.reset();
+       <span class="hljs-keyword">while</span> (tokenStream.incrementToken())&#123;
+           System.out.println(charTermAttribute.toString());
+       &#125;
+       tokenStream.close();
+   &#125;</code></pre>
+<h3 id="4-2-StandardAnalyzer（自带）"><a href="#4-2-StandardAnalyzer（自带）" class="headerlink" title="4.2 StandardAnalyzer（自带）"></a>4.2 StandardAnalyzer（自带）</h3><p>对英文支持比较好，对中文分析不行，就是按照中文一个字一个字地进行分词。<br>如：“我爱中国”，<br>效果：“我”、“爱”、“中”、“国”。</p>
+<h3 id="4-3-SmartChineseAnalyzer（自带）"><a href="#4-3-SmartChineseAnalyzer（自带）" class="headerlink" title="4.3 SmartChineseAnalyzer（自带）"></a>4.3 SmartChineseAnalyzer（自带）</h3><p>对中文支持较好，但扩展性差，扩展词库，禁用词库和同义词库等不好处理</p>
+<h1 id="五、索引库的维护"><a href="#五、索引库的维护" class="headerlink" title="五、索引库的维护"></a>五、索引库的维护</h1><table>
+<thead>
+<tr>
+<th>Field类</th>
+<th>数据类型</th>
+<th>Analyzed是否分析</th>
+<th>Indexed是否索引</th>
+<th>Stored是否存储</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>StringField(FieldName, FieldValue,Store.YES))</td>
+<td>字符串</td>
+<td>N</td>
+<td>Y</td>
+<td>Y或N</td>
+<td>这个Field用来构建一个字符串Field，但是不会进行分析，会将整个串存储在索引中，比如(订单号,姓名等)是否存储在文档中用Store.YES或Store.NO决定</td>
+</tr>
+<tr>
+<td>LongPoint(String name, long… point)</td>
+<td>Long型</td>
+<td>Y</td>
+<td>Y</td>
+<td>N</td>
+<td>可以使用LongPoint、IntPoint等类型存储数值类型的数据。让数值类型可以进行索引。但是不能存储数据，如果想存储数据还需要使用StoredField。</td>
+</tr>
+<tr>
+<td>StoredField(FieldName, FieldValue)</td>
+<td>重载方法，支持多种类型</td>
+<td>N</td>
+<td>N</td>
+<td>Y</td>
+<td>这个Field用来构建不同类型Field不分析，不索引，但要Field存储在文档中</td>
+</tr>
+<tr>
+<td>TextField(FieldName, FieldValue, Store.NO)或TextField(FieldName, reader)</td>
+<td>字符串或流</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y或N</td>
+<td>如果是一个Reader, lucene猜测内容比较多,会采用Unstored的策略.</td>
+</tr>
+</tbody></table>
+<h3 id="5-1-添加文档"><a href="#5-1-添加文档" class="headerlink" title="5.1 添加文档"></a>5.1 添加文档</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addDocument</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-comment">//索引库存放路径</span>
+    Directory directory = FSDirectory.open(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;C://index&quot;</span>).toPath());
+    IndexWriterConfig config = <span class="hljs-keyword">new</span> IndexWriterConfig(<span class="hljs-keyword">new</span> IKAnalyzer());
+    <span class="hljs-comment">//创建一个indexwriter对象</span>
+    IndexWriter indexWriter = <span class="hljs-keyword">new</span> IndexWriter(directory, config);
+    <span class="hljs-comment">//创建一个Document对象</span>
+    Document document = <span class="hljs-keyword">new</span> Document();
+    <span class="hljs-comment">//向document对象中添加域。</span>
+    <span class="hljs-comment">//不同的document可以有不同的域，同一个document可以有相同的域。</span>
+    document.add(<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;filename&quot;</span>, <span class="hljs-string">&quot;新添加的文档&quot;</span>, Field.Store.YES));
+    document.add(<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;content&quot;</span>, <span class="hljs-string">&quot;新添加的文档的内容&quot;</span>, Field.Store.NO));
+    <span class="hljs-comment">//LongPoint创建索引</span>
+    document.add(<span class="hljs-keyword">new</span> LongPoint(<span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">1000l</span>));
+    <span class="hljs-comment">//StoreField存储数据</span>
+    document.add(<span class="hljs-keyword">new</span> StoredField(<span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">1000l</span>));
+    <span class="hljs-comment">//不需要创建索引的就使用StoreField存储</span>
+    document.add(<span class="hljs-keyword">new</span> StoredField(<span class="hljs-string">&quot;path&quot;</span>, <span class="hljs-string">&quot;d:/temp/1.txt&quot;</span>));
+    <span class="hljs-comment">//添加文档到索引库</span>
+    indexWriter.addDocument(document);
+    <span class="hljs-comment">//关闭indexwriter</span>
+    indexWriter.close();
+
+&#125;
+</code></pre>
+
+<h3 id="5-2-索引库删除"><a href="#5-2-索引库删除" class="headerlink" title="5.2 索引库删除"></a>5.2 索引库删除</h3><p>说明：将索引目录的索引信息全部删除，直接彻底删除，无法恢复</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteAllIndex</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+		<span class="hljs-comment">//getIndexWriter重复代码省略为方法</span>
+		IndexWriter indexWriter = getIndexWriter();
+		<span class="hljs-comment">//删除全部索引</span>
+		indexWriter.deleteAll();
+		<span class="hljs-comment">//关闭indexwriter</span>
+		indexWriter.close();
+</code></pre>
+<h3 id="5-3-指定查询条件删除"><a href="#5-3-指定查询条件删除" class="headerlink" title="5.3 指定查询条件删除"></a>5.3 指定查询条件删除</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteIndexByQuery</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+		IndexWriter indexWriter = getIndexWriter();
+		<span class="hljs-comment">//创建一个查询条件</span>
+		Query query = <span class="hljs-keyword">new</span> TermQuery(<span class="hljs-keyword">new</span> Term(<span class="hljs-string">&quot;filename&quot;</span>, <span class="hljs-string">&quot;apache&quot;</span>));
+		<span class="hljs-comment">//根据查询条件删除</span>
+		indexWriter.deleteDocuments(query);
+		<span class="hljs-comment">//关闭indexwriter</span>
+		indexWriter.close();
+	&#125;
+</code></pre>
+<h3 id="5-4-7-3-索引库的修改"><a href="#5-4-7-3-索引库的修改" class="headerlink" title="5.4 7.3    索引库的修改"></a>5.4 7.3    索引库的修改</h3><p>原理就是先删除后添加。</p>
+<pre><code class="hljs java"><span class="hljs-comment">//修改索引库</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateIndex</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    IndexWriter indexWriter = getIndexWriter();
+    <span class="hljs-comment">//创建一个Document对象</span>
+    Document document = <span class="hljs-keyword">new</span> Document();
+    <span class="hljs-comment">//向document对象中添加域。</span>
+    <span class="hljs-comment">//不同的document可以有不同的域，同一个document可以有相同的域。</span>
+    document.add(<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;filename&quot;</span>, <span class="hljs-string">&quot;要更新的文档&quot;</span>, Field.Store.YES));
+    document.add(<span class="hljs-keyword">new</span> TextField(<span class="hljs-string">&quot;content&quot;</span>, <span class="hljs-string">&quot; Lucene 简介 Lucene 是一个基于 Java 的全文信息检索&quot;</span>,
+                Field.Store.YES));
+    indexWriter.updateDocument(<span class="hljs-keyword">new</span> Term(<span class="hljs-string">&quot;content&quot;</span>, <span class="hljs-string">&quot;java&quot;</span>), document);
+    <span class="hljs-comment">//关闭indexWriter</span>
+    indexWriter.close();
+&#125;
+</code></pre>
+
+<h1 id="六、Lucene索引库查询"><a href="#六、Lucene索引库查询" class="headerlink" title="六、Lucene索引库查询"></a>六、Lucene索引库查询</h1><p>对要搜索的信息创建Query查询对象，Lucene会根据Query查询对象生成最终的查询语法，类似关系数据库Sql语法一样Lucene也有自己的查询语法，比如：“name:lucene”表示查询Field的name为“lucene”的文档信息。<br>    可通过两种方法创建查询对象：<br>    1）使用Lucene提供Query子类<br>    2）使用QueryParse解析查询表达式</p>
+<h3 id="6-1-TermQuery"><a href="#6-1-TermQuery" class="headerlink" title="6.1 TermQuery"></a>6.1 TermQuery</h3><p>TermQuery，通过项查询，TermQuery不使用分析器所以建议匹配不分词的Field域查询，比如订单号、分类ID号等。指定要查询的域和要查询的关键词。<br>上面入门例子即是</p>
+<h3 id="6-2-数值范围查询"><a href="#6-2-数值范围查询" class="headerlink" title="6.2 数值范围查询"></a>6.2 数值范围查询</h3><p>size为LongPoint类型</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRangeQuery</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    IndexSearcher indexSearcher = getIndexSearcher();
+    Query query = LongPoint.newRangeQuery(<span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">0L</span>, <span class="hljs-number">10000L</span>);
+    printResult(query, indexSearcher);
+&#125;</code></pre>
+<h3 id="6-3-使用queryparser查询"><a href="#6-3-使用queryparser查询" class="headerlink" title="6.3 使用queryparser查询"></a>6.3 使用queryparser查询</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testQueryParser</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+      <span class="hljs-comment">//指定索引库存放的路径</span>
+      FSDirectory fsDirectory = FSDirectory.open(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;D:\\java\\IDEA_WORKSPACE\\LuceneDomo\\index&quot;</span>).toPath());
+      <span class="hljs-comment">//指定索引库存放的路径</span>
+      IndexReader reader= DirectoryReader.open(fsDirectory);
+      IndexSearcher searcher=<span class="hljs-keyword">new</span> IndexSearcher(reader);
+      QueryParser queryParser=<span class="hljs-keyword">new</span> QueryParser(<span class="hljs-string">&quot;content&quot;</span>,<span class="hljs-keyword">new</span> IKAnalyzer());
+      Query query = queryParser.parse(<span class="hljs-string">&quot;Lucene是java开发的&quot;</span>);
+      printResult(query,searcher);
+
+  &#125;
+  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printResult</span><span class="hljs-params">(Query query, IndexSearcher indexSearcher)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+      <span class="hljs-comment">//执行查询</span>
+      TopDocs topDocs = indexSearcher.search(query, <span class="hljs-number">10</span>);
+      <span class="hljs-comment">//共查询到的document个数</span>
+      System.out.println(<span class="hljs-string">&quot;查询结果总数量：&quot;</span> + topDocs.totalHits);
+      <span class="hljs-comment">//遍历查询结果</span>
+      <span class="hljs-keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;
+          Document document = indexSearcher.doc(scoreDoc.doc);
+          System.out.println(document.get(<span class="hljs-string">&quot;name&quot;</span>));
+          <span class="hljs-comment">//System.out.println(document.get(&quot;content&quot;));</span>
+          System.out.println(document.get(<span class="hljs-string">&quot;path&quot;</span>));
+          System.out.println(document.get(<span class="hljs-string">&quot;size&quot;</span>));
+      &#125;
+      <span class="hljs-comment">//关闭indexreader</span>
+      indexSearcher.getIndexReader().close();
+  &#125;</code></pre>
+
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>贴下pom.xml方便使用</p>
+<pre><code class="hljs java">&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;4.11&lt;/version&gt;
+    &lt;scope&gt;compile&lt;/scope&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+    &lt;artifactId&gt;lucene-core&lt;/artifactId&gt;
+    &lt;version&gt;8.0.0&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+    &lt;artifactId&gt;lucene-analyzers-common&lt;/artifactId&gt;
+    &lt;version&gt;8.0.0&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;commons-io&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
+    &lt;version&gt;2.6&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;!--自己安装得--&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.lucene&lt;/groupId&gt;
+    &lt;artifactId&gt;ikAnalyzer&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+    &lt;artifactId&gt;lucene-queryparser&lt;/artifactId&gt;
+    &lt;version&gt;8.0.0&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+
+  </div >
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a class='author' href="https://blog.unclezs.com" rel="nofollow">
+    <img no-lazy src="/img/avatar.png">
+    <p>Unclezs</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-02T16:43:30+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年1月2日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Java/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Java</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Lucen/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Lucen</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.unclezs.com/Java/%E5%85%B6%E4%BB%96/Lucen%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8&title=Lucen入门使用 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.unclezs.com/Java/%E5%85%B6%E4%BB%96/Lucen%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8.html&title=Lucen入门使用 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.unclezs.com/Java/%E5%85%B6%E4%BB%96/Lucen%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8.html&title=Lucen入门使用 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/%E9%97%AE%E9%A2%98%E6%95%99%E7%A8%8B/ElasticSearch-Head%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>ElasticSearch-Head安装配置</p>
+        </a>
+      
+      
+        <a class='next' href='/Java/%E5%B7%A5%E5%85%B7/PageHelper%E5%85%A5%E9%97%A8%E5%88%9D%E4%BD%93%E9%AA%8C.html'>
+          <p class='title'>PageHelper入门初体验<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-jar%E5%8C%85"><span class="toc-text">3.1 jar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%A3%80%E7%B4%A2"><span class="toc-text">3.3 检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-IkAnalyzer%E4%B8%AD%E6%96%87%E5%88%86%E6%9E%90%E5%99%A8%EF%BC%88%E7%AC%AC%E4%B8%89%E6%96%B9%EF%BC%89"><span class="toc-text">4.1. IkAnalyzer中文分析器（第三方）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-StandardAnalyzer%EF%BC%88%E8%87%AA%E5%B8%A6%EF%BC%89"><span class="toc-text">4.2 StandardAnalyzer（自带）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-SmartChineseAnalyzer%EF%BC%88%E8%87%AA%E5%B8%A6%EF%BC%89"><span class="toc-text">4.3 SmartChineseAnalyzer（自带）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%B7%BB%E5%8A%A0%E6%96%87%E6%A1%A3"><span class="toc-text">5.1 添加文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%B4%A2%E5%BC%95%E5%BA%93%E5%88%A0%E9%99%A4"><span class="toc-text">5.2 索引库删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%8C%87%E5%AE%9A%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E5%88%A0%E9%99%A4"><span class="toc-text">5.3 指定查询条件删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-7-3-%E7%B4%A2%E5%BC%95%E5%BA%93%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-text">5.4 7.3    索引库的修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-TermQuery"><span class="toc-text">6.1 TermQuery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%95%B0%E5%80%BC%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">6.2 数值范围查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E4%BD%BF%E7%94%A8queryparser%E6%9F%A5%E8%AF%A2"><span class="toc-text">6.3 使用queryparser查询</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    
+      
+        <!-- <div class='copyright'>
+        </div> -->
+        <div>
+              Copyright © 2018-2021
+              <a href=" ">Unclezs  |</a> 
+              <img src="/img/icp.png" class="lazyload" data-srcset="/img/icp.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" style='margin-bottom: -4px;'/>渝ICP备18013963号-2 
+                <div>
+                   <a class="github-badge" href="https://hexo.io" target="_black" rel="nofollow" style="margin-right:5px">
+                        <span class="badge-subject"> Powered by</span>
+                        <span class="badge-value bg-blue"> Hexo</span>
+                   </a>
+                   <a class="github-badge" href="https://github.com/volantis-x/hexo-theme-volantis" target="_black">
+                        <span class="badge-subject"> Theme</span>
+                        <span class="badge-value bg-yellowgreen">Volantis</span>
+                  </a>
+                </div>
+        </div>
+      
+    
+  </footer>
+
+
+      <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+    <div class="tab_holder"></div>
+  </div>
+  <!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function fancybox() {
+    $("#nice").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $("#nice").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($("#nice").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = $.trim($('#pjax-comment-placeholder').text()) || "ヾﾉ≧∀≦)o来啊，快活啊";
+
+    let path = $.trim($('#pjax-comment-path').text());
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI",
+      appKey: "ugNSIgRXf5yc9u8YXQR6MBMu",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="/js/search.js"></script>
+
+  
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+(function ($) {
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+})(jQuery);
+
+</script>
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI',
+    app_key: 'ugNSIgRXf5yc9u8YXQR6MBMu',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://blog.unclezs.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+<!-- more -->
+
+
+  <tab class="l_tab">
+    
+            <a class="tab-item" href="/" id="tab-home">
+                <div class='fas fa-rss tab-icon'></div>
+                <div class="tab-text">
+                    博客
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/categories/" id="tab-categories">
+                <div class='fas fa-folder-open tab-icon'></div>
+                <div class="tab-text">
+                    分类
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/tags/" id="tab-tags">
+                <div class='fas fa-tags tab-icon'></div>
+                <div class="tab-text">
+                    标签
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/archives/" id="tab-archives">
+                <div class='fas fa-archive tab-icon'></div>
+                <div class="tab-text">
+                    归档
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/about/" id="tab-about">
+                <div class='fas fa-info-circle tab-icon'></div>
+                <div class="tab-text">
+                    关于
+                </div>
+            </a>
+    
+</tab>
+</body>
+</html>

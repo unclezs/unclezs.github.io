@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  <meta name="sogou_site_verification" content="Ig9jrB4dqD"/>
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+
+  <!-- 页面元数据 -->
+  
+  <title>数据结构之哈希表 - Unclezs</title>
+  
+    <meta name="keywords" content="哈希表,hash,开放地址法,拉链法">
+  
+
+  
+    <meta name="description" content="Hash，一般翻译做散列、杂凑，或音译为哈希，是把任意长度的输入（又叫做预映射pre-image）通过散列算法变换成固定长度的输出，该输出就是散列值。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Unclezs" type="application/atom+xml">
+  
+
+  <!-- import meta -->
+  
+  <!-- link -->
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css">
+
+  
+  
+
+
+  
+
+  
+  <!-- import link -->
+  
+    
+      
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.2.0/styles/atom-one-dark.css">
+
+    
+  
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- 谷歌分析 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFN05GYC6"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TTFN05GYC6');
+  </script>
+  <!-- 脚本懒加载函数 -->
+  <script>
+    function loadScript(src, cb) {
+      var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+      var script = document.createElement('script');
+      script.setAttribute('type','text/javascript');
+      if (cb) script.onload = cb;
+      script.setAttribute('src', src);
+      HEAD.appendChild(script);
+    }
+    //https://github.com/filamentgroup/loadCSS
+    !function(c){"use strict";var e=function(e,t,n,r){var o,i=c.document,a=i.createElement("link");if(t)o=t;else{var d=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=d[d.length-1]}var f=i.styleSheets;if(r)for(var l in r)r.hasOwnProperty(l)&&a.setAttribute(l,r[l]);a.rel="stylesheet",a.href=e,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var s=function(e){for(var t=a.href,n=f.length;n--;)if(f[n].href===t)return e();setTimeout(function(){s(e)})};function u(){a.addEventListener&&a.removeEventListener("load",u),a.media=n||"all"}return a.addEventListener&&a.addEventListener("load",u),(a.onloadcssdefined=s)(u),a};"undefined"!=typeof exports?exports.loadCSS=e:c.loadCSS=e}("undefined"!=typeof global?global:this);
+  </script>
+  <script id="loadcss"></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <header class="l_header always shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Unclezs
+          
+        </a>
+      
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div class="l_body">
+    <div class="l_cover">
+    </div>
+    <div class='safearea'>
+      <div class='body-wrapper'>
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  <div class="article-meta" id="top">
+    
+      <h1 class="title">
+        数据结构之哈希表
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月26日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="数据结构之哈希表" data-path="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%93%88%E5%B8%8C%E8%A1%A8.html">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：2.5k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：10分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <div id="nice">
+    <link   rel="stylesheet"  href="/css/post.css"/>
+    <h2 id="关于哈希Hash"><a href="#关于哈希Hash" class="headerlink" title="关于哈希Hash"></a>关于哈希Hash</h2><p>Hash，一般翻译做散列、杂凑，或音译为哈希，是把任意长度的输入（又叫做预映射pre-image）通过散列算法变换成固定长度的输出，该输出就是散列值。这种转换是一种压缩映射，也就是，散列值的空间通常远小于输入的空间，不同的输入可能会散列成相同的输出，所以不可能从散列值来确定唯一的输入值。简单的说就是一种将任意长度的消息压缩到某一固定长度的消息摘要的函数。<br>白话：给你一(多)个字符串(数据)，你根据字符串生产一个唯一的hash数</p>
+<h2 id="常用Hash函数"><a href="#常用Hash函数" class="headerlink" title="常用Hash函数"></a>常用Hash函数</h2><h3 id="直接寻址法"><a href="#直接寻址法" class="headerlink" title="直接寻址法"></a>直接寻址法</h3><p>取关键字或关键字的某个线性函数值为散列地址，即H(key)=key或H(key) = a·key + b，其中a和b为常数</p>
+<h3 id="数字分析法"><a href="#数字分析法" class="headerlink" title="数字分析法"></a>数字分析法</h3><p>分析一组数据，比如一组员工的出生年月日，这时我们发现出生年月日的前几位数字大体相同，这样的话，出现冲突的几率就会很大，但是我们发现年月日的后几位表示月份和具体日期的数字差别很大，如果用后面的数字来构成散列地址，则冲突的几率会明显降低。因此数字分析法就是找出数字的规律，尽可能利用这些数据来构造冲突几率较低的散列地址。</p>
+<h3 id="平方取中法"><a href="#平方取中法" class="headerlink" title="平方取中法"></a>平方取中法</h3><p>取关键字平方后的中间几位作为散列地址。</p>
+<h3 id="折叠法"><a href="#折叠法" class="headerlink" title="折叠法"></a>折叠法</h3><p>将关键字分割成位数相同的几部分，最后一部分位数可以不同，然后取这几部分的叠加和（去除进位）作为散列地址。</p>
+<h3 id="随机数法"><a href="#随机数法" class="headerlink" title="随机数法"></a>随机数法</h3><p>选择一随机函数，取关键字作为随机函数的种子生成随机值作为散列地址，通常用于关键字长度不同的场合。</p>
+<h3 id="除留余数法"><a href="#除留余数法" class="headerlink" title="除留余数法"></a>除留余数法</h3><p>取关键字被某个不大于散列表表长m的数p除后所得的余数为散列地址。即 H(key) = key MOD p,p&lt;=m。不仅可以对关键字直接取模，也可在折叠、平方取中等运算之后取模。对p的选择很重要，一般取素数或m，若p选的不好，容易产生碰撞。</p>
+<h2 id="处理Hash冲突方案"><a href="#处理Hash冲突方案" class="headerlink" title="处理Hash冲突方案"></a>处理Hash冲突方案</h2><p>哈希冲突即是，不同的数据，经过同一个hash函数，生成了同一个hash值。</p>
+<h3 id="开放寻址法"><a href="#开放寻址法" class="headerlink" title="开放寻址法"></a>开放寻址法</h3><p>Hi=(H(key) + di) MOD m，i=1,2,…，k(k&lt;=m-1)，其中H(key)为散列函数，m为散列表长，di为增量序列，可有下列三种取法：</p>
+<ol>
+<li>di=1,2,3,…，m-1，称线性探测再散列；</li>
+<li>di=1^2,-1^2,2^2,-2^2,3^2,…，±k^2,(k&lt;=m/2)称二次探测再散列；</li>
+<li>di=伪随机数序列，称伪随机探测再散列。</li>
+</ol>
+<p>说的通俗一点，如果这个Hash冲突了，则根据上诉计算方式，尝试寻找下一个没有被占用地址的位置，就比如hash计算出来得1，则array[1]里面已经本占用了，这个时候可以根据方法1，计算得到下一个地址为2，如果2地址也被占用了，则3以此类推。直到找到没有被占用得即可。</p>
+<h3 id="再散列法（再哈希）"><a href="#再散列法（再哈希）" class="headerlink" title="再散列法（再哈希）"></a>再散列法（再哈希）</h3><p>Hi=RHi(key),i=1,2,…，k RHi均是不同的散列函数，即在同义词产生地址冲突时计算另一个散列函数地址，直到冲突不再发生，这种方法不易产生“聚集”，但增加了计算时间。</p>
+<h3 id="链地址法-拉链法"><a href="#链地址法-拉链法" class="headerlink" title="链地址法(拉链法)"></a>链地址法(拉链法)</h3><p>拉链法就是用一个数组存hash过后的地址值，地址值后面存这个hash值得链表，当hash冲突之后，则只需要将冲突的数据连接到这个链表之后就行了，这样有个问题就是增加了空间成本，而且还有个问题就是查找可能出现问题。当某个hash值冲突严重的时候，这个链表可能会非常的长，如果查找一个数据就需要根据hash找到链表，然后遍历链表找到真正的数据。所以可能性能上有些影响，在Java(1.8)的HashMap里面，是在链表长度到达一定长度之后，链表转化成了红黑树。</p>
+<img src="https://gitee.com/unclezs/image-blog/raw/master/blog/20200726182226.png" class="lazyload" data-srcset="https://gitee.com/unclezs/image-blog/raw/master/blog/20200726182226.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="/>
+
+<h3 id="建立公共溢出区"><a href="#建立公共溢出区" class="headerlink" title="建立公共溢出区"></a>建立公共溢出区</h3><p>建立一个公共溢出区域，就是把冲突的都放在另一个地方，不在表里面。</p>
+<h2 id="平均查找长度与装填因子"><a href="#平均查找长度与装填因子" class="headerlink" title="平均查找长度与装填因子"></a>平均查找长度与装填因子</h2><ol>
+<li>平均查找长度<br>为确定记录在查找表中的位置，需和给定值进行比较的关键字个数的期望值称为查找算法在查找成功时的平均查找长度()，ASL成功。<br>在查找表中查找不到待查元素，但是找到待查元素应该在表中存在的位置的平均查找次数称为查找不成功时的平均查找长度，不成功。</li>
+<li>装填因子<br>散列表的装填因子定义为：α= 填入表中的元素个数/散列表的长度<br>装填因子越大，说明hash表装的越多，冲突出现越大。</li>
+</ol>
+<h2 id="影响Hash表性能的因素"><a href="#影响Hash表性能的因素" class="headerlink" title="影响Hash表性能的因素"></a>影响Hash表性能的因素</h2><ol>
+<li>因素<ul>
+<li>散列函数是否均匀；</li>
+<li>处理冲突的方法；</li>
+<li>散列表的装填因子。</li>
+</ul>
+</li>
+<li>著名Hash算法<ul>
+<li>MD4</li>
+<li>MD5</li>
+<li>SHA-1</li>
+</ul>
+</li>
+</ol>
+<h2 id="用Java实现Hash表"><a href="#用Java实现Hash表" class="headerlink" title="用Java实现Hash表"></a>用Java实现Hash表</h2><p>使用了开放地址法和拉链法。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Hash表的Java实现</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> unclezs.com</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2019.06.04 18:51</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHashTable</span>&lt;<span class="hljs-title">K</span>, <span class="hljs-title">V</span>&gt; </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<span class="hljs-comment">//索引使用数量</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> capacity;<span class="hljs-comment">//容量</span>
+    <span class="hljs-keyword">private</span> Node&lt;K, V&gt;[] table;<span class="hljs-comment">//散列表</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mode = <span class="hljs-number">1</span>;<span class="hljs-comment">//处理冲突方式 1开放地址法，2链表储存法</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> eRate = <span class="hljs-number">0.8</span>;<span class="hljs-comment">//扩容因子（达到容量的多少比例后扩容）</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> hashMode;<span class="hljs-comment">//哈希值生成函数选择</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> conflictsNum;<span class="hljs-comment">//冲突次数</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> linkNodeNum;<span class="hljs-comment">//链式储存时当前节点个数</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> queryNum;<span class="hljs-comment">//查询一次比较次数</span>
+
+    <span class="hljs-comment">//默认容量16</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyHashTable</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>(<span class="hljs-number">16</span>);
+    &#125;
+
+    <span class="hljs-comment">//构建散列表</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyHashTable</span><span class="hljs-params">(<span class="hljs-keyword">int</span> capacity)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.capacity = capacity;
+        table = <span class="hljs-keyword">new</span> Node[capacity];
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 高级构造</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> capacity 容量</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mode     处理冲突方式</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> eRate    扩容因子</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyHashTable</span><span class="hljs-params">(<span class="hljs-keyword">int</span> capacity, <span class="hljs-keyword">int</span> mode, <span class="hljs-keyword">double</span> eRate, <span class="hljs-keyword">int</span> hashMode)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>(capacity);
+        <span class="hljs-keyword">this</span>.mode = mode;
+        <span class="hljs-keyword">this</span>.eRate = eRate;
+        <span class="hljs-keyword">this</span>.hashMode = hashMode;
+    &#125;
+
+    <span class="hljs-comment">//散列函数</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hash</span><span class="hljs-params">(K key)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (hashMode == <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//余数法</span>
+            <span class="hljs-keyword">return</span> (key.hashCode() &amp; <span class="hljs-number">0x7fffffff</span>);
+        &#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//折叠法+余数法</span>
+            <span class="hljs-keyword">int</span> code = key.hashCode() &amp; <span class="hljs-number">0x7fffffff</span>;
+            <span class="hljs-comment">//1865644118</span>
+            <span class="hljs-keyword">int</span> h = code / <span class="hljs-number">1000000</span>;<span class="hljs-comment">//186</span>
+            h += code / <span class="hljs-number">1000</span> % <span class="hljs-number">1000</span>;<span class="hljs-comment">//564</span>
+            h += code % <span class="hljs-number">1000</span>;<span class="hljs-comment">//118</span>
+            <span class="hljs-keyword">return</span> h;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">//添加数据（三种情况，还没有初始化hash表，初始化了但是hash值冲突，key相同）</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">put</span><span class="hljs-params">(K k, V v)</span> </span>&#123;
+        <span class="hljs-comment">//自动扩容，2倍扩容</span>
+        <span class="hljs-keyword">if</span> (num &gt; eRate * capacity &amp;&amp; mode == <span class="hljs-number">1</span>) &#123;
+            resize(capacity * <span class="hljs-number">2</span>);
+        &#125;
+        <span class="hljs-keyword">int</span> hash = hash(k);<span class="hljs-comment">//计算哈希值</span>
+        <span class="hljs-keyword">int</span> index = indexFor(hash);<span class="hljs-comment">//计算索引</span>
+        <span class="hljs-comment">//如果没有冲突</span>
+        <span class="hljs-keyword">if</span> (table[index] == <span class="hljs-keyword">null</span>) &#123;
+            table[index] = <span class="hljs-keyword">new</span> Node&lt;&gt;(k, v, hash);
+            linkNodeNum++;
+            conflictsNum++;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mode == <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//开放地址法解决冲突</span>
+            <span class="hljs-keyword">if</span> (hash == table[index].hash &amp;&amp; (k.equals(table[index].getKey()))) &#123;<span class="hljs-comment">//如果键的值一样且与上次hash值相同则更新</span>
+                table[index].setValue(v);
+                conflictsNum++;
+                <span class="hljs-keyword">return</span>;
+            &#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//确认为冲突</span>
+                <span class="hljs-keyword">while</span> (table[index] != <span class="hljs-keyword">null</span>) &#123;
+                    conflictsNum++;
+                    <span class="hljs-comment">//找到可以插入的索引</span>
+                    index = (index + <span class="hljs-number">1</span>) % capacity;
+                &#125;
+                table[index] = <span class="hljs-keyword">new</span> Node&lt;&gt;(k, v, hash);
+            &#125;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mode == <span class="hljs-number">2</span>) &#123;<span class="hljs-comment">//链式储存法解决冲突</span>
+            <span class="hljs-comment">//判断是否为过更新</span>
+            Node&lt;K, V&gt; node = table[index];
+            <span class="hljs-keyword">while</span> (node.next != <span class="hljs-keyword">null</span> &amp;&amp; !node.getKey().equals(k)) &#123;<span class="hljs-comment">//遍历找到末尾节点或者找到键值相同的节点</span>
+                node = node.next;
+                conflictsNum++;
+            &#125;
+            <span class="hljs-keyword">if</span> (node.getKey().equals(k)) &#123;
+                node.setValue(v);
+                <span class="hljs-keyword">return</span>;
+            &#125;
+            <span class="hljs-comment">//非更新</span>
+            linkNodeNum++;
+            conflictsNum++;
+            node.next = <span class="hljs-keyword">new</span> Node&lt;K, V&gt;(k, v, hash);
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        num++;<span class="hljs-comment">//当前表中索引使用数量增加</span>
+    &#125;
+
+    <span class="hljs-comment">//删除数据</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">remove</span><span class="hljs-params">(K k)</span> </span>&#123;
+
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 查询数据</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> k key值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 没找到返回null</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> V <span class="hljs-title">get</span><span class="hljs-params">(K k)</span> </span>&#123;
+        queryNum = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> hash = hash(k);
+        <span class="hljs-keyword">int</span> index = indexFor(hash);
+        Node&lt;K, V&gt; node = table[index];
+        <span class="hljs-keyword">if</span> (node == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-comment">//开放地址法</span>
+        <span class="hljs-keyword">if</span> (mode == <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-comment">//如果当前索引处node为空了并且还没有找到与键值匹配的关键字则跳出循环</span>
+            <span class="hljs-keyword">while</span> (table[index] != <span class="hljs-keyword">null</span> &amp;&amp; !k.equals(table[index].getKey())) &#123;
+                index = (index + <span class="hljs-number">1</span>) % capacity;
+                queryNum++;
+            &#125;
+            <span class="hljs-keyword">return</span> table[index] == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : table[index].getValue();
+        &#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//链式储存法</span>
+            <span class="hljs-keyword">while</span> (node.next != <span class="hljs-keyword">null</span> &amp;&amp; !k.equals(node.getKey())) &#123;
+                node = node.next;
+                queryNum++;
+            &#125;
+            <span class="hljs-keyword">if</span> (k.equals(node.getKey())) &#123;
+                <span class="hljs-keyword">return</span> node.getValue();
+            &#125;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">//获取index</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">indexFor</span><span class="hljs-params">(<span class="hljs-keyword">int</span> hash)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> hash % capacity;
+    &#125;
+
+    <span class="hljs-comment">//获取当前表中数量,1线性探测法,2链式法</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> type)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> type == <span class="hljs-number">1</span> ? num : linkNodeNum;
+    &#125;
+
+    <span class="hljs-comment">//获取容量</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getCapacity</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> capacity;
+    &#125;
+
+    <span class="hljs-comment">//获取冲突次数</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getConflictsNum</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> conflictsNum;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 更改处理冲突模式</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mode 1开放地址法，2链表储存法</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> mode)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.mode = mode;
+    &#125;
+
+    <span class="hljs-comment">//获取本次查询比较次数</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getQueryNum</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> queryNum;
+    &#125;
+
+    <span class="hljs-comment">//重新设置大小</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">resize</span><span class="hljs-params">(<span class="hljs-keyword">int</span> capacity)</span> </span>&#123;
+        <span class="hljs-comment">//如果传入容量小于当前容量则不处理</span>
+        <span class="hljs-keyword">int</span> size = <span class="hljs-keyword">this</span>.capacity;
+        <span class="hljs-keyword">if</span> (capacity &lt; <span class="hljs-keyword">this</span>.capacity) &#123;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        conflictsNum = <span class="hljs-number">0</span>;
+        num = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">this</span>.capacity = capacity;
+        <span class="hljs-comment">//数据迁移</span>
+        Node&lt;K, V&gt;[] oldTab = table;
+        table = <span class="hljs-keyword">new</span> Node[capacity];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) &#123;
+            <span class="hljs-keyword">if</span> (oldTab[i] != <span class="hljs-keyword">null</span>) &#123;
+                put(oldTab[i].getKey(), oldTab[i].getValue());
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">//自定义节点类</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">K</span>, <span class="hljs-title">V</span>&gt; </span>&#123;
+        <span class="hljs-keyword">final</span> K key;<span class="hljs-comment">//键</span>
+        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> hash;<span class="hljs-comment">//哈希值</span>
+        V value;<span class="hljs-comment">//值</span>
+        Node&lt;K, V&gt; next;<span class="hljs-comment">//链表处理冲突时用</span>
+
+        Node(K k, V v, <span class="hljs-keyword">int</span> hash) &#123;
+            <span class="hljs-keyword">this</span>.key = k;
+            <span class="hljs-keyword">this</span>.value = v;
+            <span class="hljs-keyword">this</span>.hash = hash;
+            <span class="hljs-keyword">this</span>.next = <span class="hljs-keyword">null</span>;
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> K <span class="hljs-title">getKey</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> key;
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> V <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> value;
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> V <span class="hljs-title">setValue</span><span class="hljs-params">(V newValue)</span> </span>&#123;
+            V oldValue = value;
+            value = newValue;
+            <span class="hljs-keyword">return</span> oldValue;
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> key.hashCode() ^ value.hashCode();
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object o)</span> </span>&#123;
+            Node&lt;?, ?&gt; e = (Node&lt;?, ?&gt;) o;
+            <span class="hljs-keyword">if</span> (Objects.equals(key, e.getKey()) &amp;&amp; Objects.equals(value, e.getValue()))
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> key + <span class="hljs-string">&quot;=&quot;</span> + value;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yeiweilan/article/details/73412438">解决Hash冲突四种方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Hash/390310?fromtitle=%E5%93%88%E5%B8%8C&fromid=24086145&fr=aladdin">百度百科</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5ab0568b5188255580020e56#heading-6">集合框架源码学习之HashMap(JDK1.8)</a></li>
+</ol>
+
+  </div >
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a class='author' href="https://blog.unclezs.com" rel="nofollow">
+    <img no-lazy src="/img/avatar.png">
+    <p>Unclezs</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-02T16:43:30+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年1月2日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>哈希表</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/hash/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>hash</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%BC%80%E6%94%BE%E5%9C%B0%E5%9D%80%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>开放地址法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%8B%89%E9%93%BE%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>拉链法</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.unclezs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%93%88%E5%B8%8C%E8%A1%A8&title=数据结构之哈希表 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.unclezs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%93%88%E5%B8%8C%E8%A1%A8.html&title=数据结构之哈希表 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.unclezs.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%93%88%E5%B8%8C%E8%A1%A8.html&title=数据结构之哈希表 - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BMap.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>数据结构之Map</p>
+        </a>
+      
+      
+        <a class='next' href='/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88Stack.html'>
+          <p class='title'>数据结构之栈Stack<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%93%88%E5%B8%8CHash"><span class="toc-text">关于哈希Hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8Hash%E5%87%BD%E6%95%B0"><span class="toc-text">常用Hash函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80%E6%B3%95"><span class="toc-text">直接寻址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-text">数字分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E6%96%B9%E5%8F%96%E4%B8%AD%E6%B3%95"><span class="toc-text">平方取中法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%98%E5%8F%A0%E6%B3%95"><span class="toc-text">折叠法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%B3%95"><span class="toc-text">随机数法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%A4%E7%95%99%E4%BD%99%E6%95%B0%E6%B3%95"><span class="toc-text">除留余数法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86Hash%E5%86%B2%E7%AA%81%E6%96%B9%E6%A1%88"><span class="toc-text">处理Hash冲突方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%94%BE%E5%AF%BB%E5%9D%80%E6%B3%95"><span class="toc-text">开放寻址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E6%95%A3%E5%88%97%E6%B3%95%EF%BC%88%E5%86%8D%E5%93%88%E5%B8%8C%EF%BC%89"><span class="toc-text">再散列法（再哈希）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E5%9C%B0%E5%9D%80%E6%B3%95-%E6%8B%89%E9%93%BE%E6%B3%95"><span class="toc-text">链地址法(拉链法)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E5%85%AC%E5%85%B1%E6%BA%A2%E5%87%BA%E5%8C%BA"><span class="toc-text">建立公共溢出区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B3%E5%9D%87%E6%9F%A5%E6%89%BE%E9%95%BF%E5%BA%A6%E4%B8%8E%E8%A3%85%E5%A1%AB%E5%9B%A0%E5%AD%90"><span class="toc-text">平均查找长度与装填因子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%B1%E5%93%8DHash%E8%A1%A8%E6%80%A7%E8%83%BD%E7%9A%84%E5%9B%A0%E7%B4%A0"><span class="toc-text">影响Hash表性能的因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8Java%E5%AE%9E%E7%8E%B0Hash%E8%A1%A8"><span class="toc-text">用Java实现Hash表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    
+      
+        <!-- <div class='copyright'>
+        </div> -->
+        <div>
+              Copyright © 2018-2021
+              <a href=" ">Unclezs  |</a> 
+              <img src="/img/icp.png" class="lazyload" data-srcset="/img/icp.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" style='margin-bottom: -4px;'/>渝ICP备18013963号-2 
+                <div>
+                   <a class="github-badge" href="https://hexo.io" target="_black" rel="nofollow" style="margin-right:5px">
+                        <span class="badge-subject"> Powered by</span>
+                        <span class="badge-value bg-blue"> Hexo</span>
+                   </a>
+                   <a class="github-badge" href="https://github.com/volantis-x/hexo-theme-volantis" target="_black">
+                        <span class="badge-subject"> Theme</span>
+                        <span class="badge-value bg-yellowgreen">Volantis</span>
+                  </a>
+                </div>
+        </div>
+      
+    
+  </footer>
+
+
+      <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+    <div class="tab_holder"></div>
+  </div>
+  <!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function fancybox() {
+    $("#nice").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $("#nice").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($("#nice").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = $.trim($('#pjax-comment-placeholder').text()) || "ヾﾉ≧∀≦)o来啊，快活啊";
+
+    let path = $.trim($('#pjax-comment-path').text());
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI",
+      appKey: "ugNSIgRXf5yc9u8YXQR6MBMu",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="/js/search.js"></script>
+
+  
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+(function ($) {
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+})(jQuery);
+
+</script>
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI',
+    app_key: 'ugNSIgRXf5yc9u8YXQR6MBMu',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://blog.unclezs.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+<!-- more -->
+
+
+  <tab class="l_tab">
+    
+            <a class="tab-item" href="/" id="tab-home">
+                <div class='fas fa-rss tab-icon'></div>
+                <div class="tab-text">
+                    博客
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/categories/" id="tab-categories">
+                <div class='fas fa-folder-open tab-icon'></div>
+                <div class="tab-text">
+                    分类
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/tags/" id="tab-tags">
+                <div class='fas fa-tags tab-icon'></div>
+                <div class="tab-text">
+                    标签
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/archives/" id="tab-archives">
+                <div class='fas fa-archive tab-icon'></div>
+                <div class="tab-text">
+                    归档
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/about/" id="tab-about">
+                <div class='fas fa-info-circle tab-icon'></div>
+                <div class="tab-text">
+                    关于
+                </div>
+            </a>
+    
+</tab>
+</body>
+</html>

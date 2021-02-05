@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  <meta name="sogou_site_verification" content="Ig9jrB4dqD"/>
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+
+  <!-- 页面元数据 -->
+  
+  <title>logback中的Appender - Unclezs</title>
+  
+    <meta name="keywords" content="logback,log">
+  
+
+  
+    <meta name="description" content="Appender最终负责输出日志记录事件。但是，他们可以将事件的实际格式委托给Layout或Encoder对象。每个布局/编码器都与一个且只有一个appender相关联。一些appender具有内置或固定的事件格式。因此，它们不需要布局/编码器。例如，SocketAppender可以简单地序列化日志记录事件，然后再通过网络传输它们">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Unclezs" type="application/atom+xml">
+  
+
+  <!-- import meta -->
+  
+  <!-- link -->
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css">
+
+  
+  
+
+
+  
+
+  
+  <!-- import link -->
+  
+    
+      
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.2.0/styles/atom-one-dark.css">
+
+    
+  
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- 谷歌分析 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFN05GYC6"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TTFN05GYC6');
+  </script>
+  <!-- 脚本懒加载函数 -->
+  <script>
+    function loadScript(src, cb) {
+      var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+      var script = document.createElement('script');
+      script.setAttribute('type','text/javascript');
+      if (cb) script.onload = cb;
+      script.setAttribute('src', src);
+      HEAD.appendChild(script);
+    }
+    //https://github.com/filamentgroup/loadCSS
+    !function(c){"use strict";var e=function(e,t,n,r){var o,i=c.document,a=i.createElement("link");if(t)o=t;else{var d=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=d[d.length-1]}var f=i.styleSheets;if(r)for(var l in r)r.hasOwnProperty(l)&&a.setAttribute(l,r[l]);a.rel="stylesheet",a.href=e,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var s=function(e){for(var t=a.href,n=f.length;n--;)if(f[n].href===t)return e();setTimeout(function(){s(e)})};function u(){a.addEventListener&&a.removeEventListener("load",u),a.media=n||"all"}return a.addEventListener&&a.addEventListener("load",u),(a.onloadcssdefined=s)(u),a};"undefined"!=typeof exports?exports.loadCSS=e:c.loadCSS=e}("undefined"!=typeof global?global:this);
+  </script>
+  <script id="loadcss"></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <header class="l_header always shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Unclezs
+          
+        </a>
+      
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div class="l_body">
+    <div class="l_cover">
+    </div>
+    <div class='safearea'>
+      <div class='body-wrapper'>
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  <div class="article-meta" id="top">
+    
+      <h1 class="title">
+        logback中的Appender
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Logback/">Logback</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年12月3日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="logback中的Appender" data-path="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1.6k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：8分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <div id="nice">
+    <link   rel="stylesheet"  href="/css/post.css"/>
+    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Appender最终负责输出日志记录事件。但是，他们可以将事件的实际格式委托给Layout或Encoder对象。每个布局/编码器都与一个且只有一个appender相关联。一些appender具有内置或固定的事件格式。因此，它们不需要布局/编码器。例如，SocketAppender可以简单地序列化日志记录事件，然后再通过网络传输它们</p>
+<h2 id="AppenderBase"><a href="#AppenderBase" class="headerlink" title="AppenderBase"></a>AppenderBase</h2><p>ch.qos.logback.core.AppenderBase类是实现Appender接口的抽象类。它提供了所有Appender共享的基本功能，例如获取或设置其名称的方法，其激活状态，其布局和其过滤器。它是Logback附带的所有附加程序的超类。尽管是抽象类，但AppenderBase实际上在Append接口中实现了doAppend（）方法。</p>
+<p>可以看到这是一个同步方法，最终还是调用了实现类来进行append.</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAppend</span><span class="hljs-params">(E eventObject)</span> </span>&#123;
+
+  <span class="hljs-comment">// prevent re-entry.</span>
+  <span class="hljs-keyword">if</span> (guard) &#123;
+    <span class="hljs-keyword">return</span>;
+  &#125;
+
+  <span class="hljs-keyword">try</span> &#123;
+    guard = <span class="hljs-keyword">true</span>;
+
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.started) &#123;
+      <span class="hljs-keyword">if</span> (statusRepeatCount++ &lt; ALLOWED_REPEATS) &#123;
+        addStatus(<span class="hljs-keyword">new</span> WarnStatus(
+            <span class="hljs-string">&quot;Attempted to append to non started appender [&quot;</span> + name + <span class="hljs-string">&quot;].&quot;</span>,<span class="hljs-keyword">this</span>));
+      &#125;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+
+    <span class="hljs-keyword">if</span> (getFilterChainDecision(eventObject) == FilterReply.DENY) &#123;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    
+    <span class="hljs-comment">// ok, we now invoke the derived class&#x27;s implementation of append</span>
+    <span class="hljs-keyword">this</span>.append(eventObject);
+
+  &#125; <span class="hljs-keyword">finally</span> &#123;
+    guard = <span class="hljs-keyword">false</span>;
+  &#125;
+&#125;</code></pre>
+
+<h2 id="OutputStreamAppender"><a href="#OutputStreamAppender" class="headerlink" title="OutputStreamAppender"></a>OutputStreamAppender</h2><p>负责基于Java中java.io.OutputStream实现的一个Appender，可以结合类图了解一下</p>
+<p>参数：</p>
+<ul>
+<li>encoder(<a target="_blank" rel="noopener" href="http://logback.qos.ch/xref/ch/qos/logback/core/encoder/Encoder.html">Encoder</a>)：编码器</li>
+<li>immediateFlush(boolean)：是否立即刷新流，默认true</li>
+</ul>
+<img src="https://gitee.com/unclezs/image-blog/raw/master///20201203110419.png" class="lazyload" data-srcset="https://gitee.com/unclezs/image-blog/raw/master///20201203110419.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="/>
+
+<h2 id="ConsoleAppender"><a href="#ConsoleAppender" class="headerlink" title="ConsoleAppender"></a>ConsoleAppender</h2><p>参数：</p>
+<ul>
+<li>encoder(<a target="_blank" rel="noopener" href="http://logback.qos.ch/xref/ch/qos/logback/core/encoder/Encoder.html">Encoder</a>)：编码器</li>
+<li>target(String)：System.out 或者 System.err，默认前者。</li>
+<li>withJansi(boolean)：是否启用Jansi，这个会开启ANSI的颜色支持。windows需要下依赖org.fusesource.jansi:jansi:1.17 ，默认false。</li>
+</ul>
+<h2 id="FileAppender"><a href="#FileAppender" class="headerlink" title="FileAppender"></a>FileAppender</h2><ul>
+<li>append(boolean)：追加模式，文件内容追加/覆盖，默认为true</li>
+<li>encoder(<a target="_blank" rel="noopener" href="http://logback.qos.ch/xref/ch/qos/logback/core/encoder/Encoder.html">Encoder</a>)：编码器</li>
+<li>file(String)：文件全路径</li>
+<li>prudent(boolean): 谨慎模式，开启后保证文件安全被写入，默认false</li>
+</ul>
+<p>例子：</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">timestamp</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;bySecond&quot;</span> <span class="hljs-attr">datePattern</span>=<span class="hljs-string">&quot;yyyyMMdd&#x27;T&#x27;HHmmss&quot;</span>/&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.FileAppender&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>testFile.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">append</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">append</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--设置为false，吞吐量更高--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">immediateFlush</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">immediateFlush</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>%-4relative [%thread] %-5level %logger&#123;35&#125; - %msg%n<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span>
+        
+  <span class="hljs-tag">&lt;<span class="hljs-name">root</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;DEBUG&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;FILE&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span></code></pre>
+
+<h2 id="RollingFileAppender"><a href="#RollingFileAppender" class="headerlink" title="RollingFileAppender"></a>RollingFileAppender</h2><p>这个是一个日志滚动记录器，也是是可以指定日志在什么情况下换一个日志文件进行存储，也是继承自FileAppnder.</p>
+<p>参数：</p>
+<ul>
+<li>fileName(String)</li>
+<li>append(boolean)</li>
+<li>encoder</li>
+<li>rollingPolicy：在预警达到后做的操作</li>
+<li>triggeringPolicy：控制在什么条件下出发</li>
+<li>prudent: 谨慎模式，FixedWindowRollingPolicy不支持，TimeBasedRollingPolicy支持。</li>
+</ul>
+<h3 id="rollingPolicies"><a href="#rollingPolicies" class="headerlink" title="rollingPolicies"></a>rollingPolicies</h3><ol>
+<li><p>TimeBasedRollingPolicy</p>
+<ul>
+<li><p>fileNamePattern(String)：文件名字的格式化，指定出发</p>
+</li>
+<li><p>maxHistory(int)，日志文件最多多少个</p>
+</li>
+<li><p>totalSizeCap(int)，所有日志文件可以用的最大空间，超过了会异步删除旧的，先判断maxHistory再判断totalSizeCap。</p>
+</li>
+<li><p>cleanHistoryOnStart(boolean)，启动的时候删除旧的文件</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ROLLING_FILE&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>access-rolling-$&#123;today&#125;.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">append</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">append</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;pattern&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>%d&#123;yyyy-MM-dd,aux&#125;/%d&#123;yyyy-MM-dd_HH-mm&#125;.log<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">maxHistory</span>&gt;</span>30<span class="hljs-tag">&lt;/<span class="hljs-name">maxHistory</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">totalSizeCap</span>&gt;</span>3GB<span class="hljs-tag">&lt;/<span class="hljs-name">totalSizeCap</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">cleanHistoryOnStart</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">cleanHistoryOnStart</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span></code></pre></li>
+</ul>
+</li>
+<li><p>SizeAndTimeBasedRollingPolicy</p>
+<ul>
+<li><p>maxFileSize 单个文件的最大大小。</p>
+</li>
+<li><p>其他参数同TimeBasedRollingPolicy</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ROLLING_FILE_SIZE_TIME&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>access-rolling-$&#123;today&#125;.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">append</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">append</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;pattern&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>%d&#123;yyyy-MM-dd,aux&#125;/%d&#123;yyyy-MM-dd_HH-mm&#125;.log<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">maxFileSize</span>&gt;</span>100M<span class="hljs-tag">&lt;/<span class="hljs-name">maxFileSize</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">maxHistory</span>&gt;</span>30<span class="hljs-tag">&lt;/<span class="hljs-name">maxHistory</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">totalSizeCap</span>&gt;</span>3GB<span class="hljs-tag">&lt;/<span class="hljs-name">totalSizeCap</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">cleanHistoryOnStart</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">cleanHistoryOnStart</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>FixedWindowRollingPolicy</p>
+<ul>
+<li><p>minIndex：初始,触发一次就会+1</p>
+</li>
+<li><p>maxIndex：最大，</p>
+</li>
+<li><p>fileNamePattern，文件名字，%i代表索引，%d代表时间</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE_INDEX&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>test.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.FixedWindowRollingPolicy&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>tests.%i.log.zip<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">minIndex</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">minIndex</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">maxIndex</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">maxIndex</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">triggeringPolicy</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">maxFileSize</span>&gt;</span>1MB<span class="hljs-tag">&lt;/<span class="hljs-name">maxFileSize</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">triggeringPolicy</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>%-4relative [%thread] %-5level %logger&#123;35&#125; - %msg%n<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span></code></pre>
+
+<p>第三个也看到了通过SizeBasedTriggeringPolicy达到了最大文件大小，触发索引的+1操作。到达最大值后进行归档。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="SiftingAppender"><a href="#SiftingAppender" class="headerlink" title="SiftingAppender"></a>SiftingAppender</h2><p>顾名思义，SiftingAppender可以根据给定的运行时属性来分离（或筛选）日志记录。例如，SiftingAppender可以根据用户会话将日志记录事件分开，以便将不同用户生成的日志放入不同的日志文件中，每个用户一个日志文件.</p>
+<p>通过MDC传入userId</p>
+<pre><code class="hljs java">logger.debug(<span class="hljs-string">&quot;Application started&quot;</span>);
+MDC.put(<span class="hljs-string">&quot;userid&quot;</span>, <span class="hljs-string">&quot;Alice&quot;</span>);
+logger.debug(<span class="hljs-string">&quot;Alice says hello&quot;</span>);</code></pre>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;SIFT&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.classic.sift.SiftingAppender&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">discriminator</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>userid<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">defaultValue</span>&gt;</span>unknown<span class="hljs-tag">&lt;/<span class="hljs-name">defaultValue</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">discriminator</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">sift</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE-$&#123;userid&#125;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.FileAppender&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>$&#123;userid&#125;.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">append</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">append</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">layout</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.classic.PatternLayout&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>%d [%thread] %level %mdc %logger&#123;35&#125; - %msg%n<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">layout</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">sift</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">root</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;DEBUG&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;SIFT&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span></code></pre>
+
+<h2 id="自定义Appender"><a href="#自定义Appender" class="headerlink" title="自定义Appender"></a>自定义Appender</h2><ul>
+<li>编写Appender</li>
+</ul>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.unclezs.samples.log.slf4j.logback.appender;
+
+<span class="hljs-keyword">import</span> ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+<span class="hljs-keyword">import</span> ch.qos.logback.classic.spi.ILoggingEvent;
+<span class="hljs-keyword">import</span> ch.qos.logback.core.AppenderBase;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAppender</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppenderBase</span>&lt;<span class="hljs-title">ILoggingEvent</span>&gt; </span>&#123;
+
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> MAX_COUNT = <span class="hljs-number">10</span>;
+  <span class="hljs-keyword">int</span> counter = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">int</span> limit = MAX_COUNT;
+
+  PatternLayoutEncoder encoder;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.encoder == <span class="hljs-keyword">null</span>) &#123;
+      addError(<span class="hljs-string">&quot;No encoder set for the appender named [&quot;</span> + name + <span class="hljs-string">&quot;].&quot;</span>);
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-keyword">super</span>.start();
+  &#125;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">append</span><span class="hljs-params">(ILoggingEvent event)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (counter &gt;= limit) &#123;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-comment">//格式化</span>
+    String bytes = <span class="hljs-keyword">this</span>.encoder.getLayout().doLayout(event);
+    System.out.print(bytes);
+    counter++;
+  &#125;
+
+  <span class="hljs-comment">/**</span>
+<span class="hljs-comment">   * 通过getter setter设置</span>
+<span class="hljs-comment">   */</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> PatternLayoutEncoder <span class="hljs-title">getEncoder</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> encoder;
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setEncoder</span><span class="hljs-params">(PatternLayoutEncoder encoder)</span> </span>&#123;
+    <span class="hljs-keyword">this</span>.encoder = encoder;
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLimit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> limit)</span> </span>&#123;
+    <span class="hljs-keyword">this</span>.limit = limit;
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getLimit</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> limit;
+  &#125;
+&#125;</code></pre>
+
+<ul>
+<li>配置</li>
+</ul>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;MY_APPENDER&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.unclezs.samples.log.slf4j.logback.appender.MyAppender&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">limit</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">limit</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;highlightPattern&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span>
+</code></pre>
+<ul>
+<li>测试</li>
+</ul>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAppenderSample</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    Logger logger = LoggerFactory.getLogger(MyAppenderSample.class);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) &#123;
+      logger.info(<span class="hljs-string">&quot;第&#123;&#125;次&quot;</span>, i);
+    &#125;
+  &#125;
+&#125;</code></pre>
+
+<h2 id="其他appender"><a href="#其他appender" class="headerlink" title="其他appender"></a>其他appender</h2><ul>
+<li>SMTP</li>
+<li>DB</li>
+<li>Syslog</li>
+<li>Socket</li>
+</ul>
+<p>略，官网查看 <a target="_blank" rel="noopener" href="http://logback.qos.ch/manual/appenders.html#SocketAppender">Logback Appender</a></p>
+
+  </div >
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a class='author' href="https://blog.unclezs.com" rel="nofollow">
+    <img no-lazy src="/img/avatar.png">
+    <p>Unclezs</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-03T10:52:59+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年12月3日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/logback/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>logback</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/log/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>log</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender&title=logback中的Appender - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html&title=logback中的Appender - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html&title=logback中的Appender - Unclezs"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+    
+    
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/Jmeter%E8%BF%9B%E8%A1%8C%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Jmeter进行并发测试之快速开始</p>
+        </a>
+      
+      
+        <a class='next' href='/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/6.logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%AD%E6%B3%95.html'>
+          <p class='title'>logback配置文件语法<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+  
+
+<section class="widget list group shadow desktop mobile">
+  
+  <header>
+    
+      <i class="fas fa-book fa-fw fa-fw" aria-hidden="true"></i><span class='name'>日志框架系列</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <ul class="list entry navigation">
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/1.%E5%88%9D%E8%AF%86Java%E4%B8%AD%E7%9A%84%E6%97%A5%E5%BF%97.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/1.%E5%88%9D%E8%AF%86Java%E4%B8%AD%E7%9A%84%E6%97%A5%E5%BF%97.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB61E5889DE8AF86JavaE4B8ADE79A84E697A5E5BF97html"
+          >
+          <div class='name'>
+            
+            1.日志框架的初步认识
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/2.%E4%B8%A4%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E6%90%AD%E9%85%8D%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/2.%E4%B8%A4%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E6%90%AD%E9%85%8D%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB62E4B8A4E7A78DE5B8B8E794A8E697A5E5BF97E6A186E69EB6E690ADE9858DE5BFABE9809FE4B88AE6898Bhtml"
+          >
+          <div class='name'>
+            
+            2.两种常用日志框架搭配快速上手
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/3.logback%E4%BB%8B%E7%BB%8D.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/3.logback%E4%BB%8B%E7%BB%8D.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB63logbackE4BB8BE7BB8Dhtml"
+          >
+          <div class='name'>
+            
+            3.介绍logback
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/4.logback%E7%9A%84%E6%9E%B6%E6%9E%84.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/4.logback%E7%9A%84%E6%9E%B6%E6%9E%84.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB64logbackE79A84E69EB6E69E84html"
+          >
+          <div class='name'>
+            
+            4.logback的架构
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/5.logback%E7%9A%84%E9%85%8D%E7%BD%AE.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/5.logback%E7%9A%84%E9%85%8D%E7%BD%AE.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB65logbackE79A84E9858DE7BDAEhtml"
+          >
+          <div class='name'>
+            
+            5.logback的配置
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/6.logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%AD%E6%B3%95.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/6.logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%AD%E6%B3%95.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB66logbackE9858DE7BDAEE69687E4BBB6E8AFADE6B395html"
+          >
+          <div class='name'>
+            
+            6.logback配置文件语法
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB67logbackE4B8ADE79A84Appenderhtml"
+          >
+          <div class='name'>
+            
+            7.logback中的Appender
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/8.logback%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84Encoder.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/8.logback%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84Encoder.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB68logbackE9858DE7BDAEE4B8ADE79A84Encoderhtml"
+          >
+          <div class='name'>
+            
+            8.logback配置中的Encoder
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/9.logback%E4%B8%AD%E7%9A%84Layouts.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/9.logback%E4%B8%AD%E7%9A%84Layouts.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB69logbackE4B8ADE79A84Layoutshtml"
+          >
+          <div class='name'>
+            
+            9.logback中的Layouts
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/10.logback%E4%B8%AD%E7%9A%84Filter.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/10.logback%E4%B8%AD%E7%9A%84Filter.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB610logbackE4B8ADE79A84Filterhtml"
+          >
+          <div class='name'>
+            
+            10.logback中的Filter
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/11.logback%E4%B8%AD%E4%BD%BF%E7%94%A8MDC.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/11.logback%E4%B8%AD%E4%BD%BF%E7%94%A8MDC.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB611logbackE4B8ADE4BDBFE794A8MDChtml"
+          >
+          <div class='name'>
+            
+            11.logback中使用MDC
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/12.logback%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/12.logback%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB612logbackE6BA90E7A081E58886E69E90html"
+          >
+          <div class='name'>
+            
+            12.logback源码分析
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/13.%E5%A5%BD%E7%9C%8B%E7%9A%84%E5%BD%A9%E8%89%B2%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA.html" href="/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/13.%E5%A5%BD%E7%9C%8B%E7%9A%84%E5%BD%A9%E8%89%B2%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA.html"
+          
+          
+          id="JavaE697A5E5BF97E6A186E69EB613E5A5BDE79C8BE79A84E5BDA9E889B2E697A5E5BF97E8BE93E587BAhtml"
+          >
+          <div class='name'>
+            
+            13.好看的彩色日志输出
+          </div>
+          
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+
+
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AppenderBase"><span class="toc-text">AppenderBase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OutputStreamAppender"><span class="toc-text">OutputStreamAppender</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConsoleAppender"><span class="toc-text">ConsoleAppender</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FileAppender"><span class="toc-text">FileAppender</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RollingFileAppender"><span class="toc-text">RollingFileAppender</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rollingPolicies"><span class="toc-text">rollingPolicies</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SiftingAppender"><span class="toc-text">SiftingAppender</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Appender"><span class="toc-text">自定义Appender</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96appender"><span class="toc-text">其他appender</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    
+      
+        <!-- <div class='copyright'>
+        </div> -->
+        <div>
+              Copyright © 2018-2021
+              <a href=" ">Unclezs  |</a> 
+              <img src="/img/icp.png" class="lazyload" data-srcset="/img/icp.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" style='margin-bottom: -4px;'/>渝ICP备18013963号-2 
+                <div>
+                   <a class="github-badge" href="https://hexo.io" target="_black" rel="nofollow" style="margin-right:5px">
+                        <span class="badge-subject"> Powered by</span>
+                        <span class="badge-value bg-blue"> Hexo</span>
+                   </a>
+                   <a class="github-badge" href="https://github.com/volantis-x/hexo-theme-volantis" target="_black">
+                        <span class="badge-subject"> Theme</span>
+                        <span class="badge-value bg-yellowgreen">Volantis</span>
+                  </a>
+                </div>
+        </div>
+      
+    
+  </footer>
+
+
+      <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+    <div class="tab_holder"></div>
+  </div>
+  <!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function fancybox() {
+    $("#nice").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $("#nice").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($("#nice").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = $.trim($('#pjax-comment-placeholder').text()) || "ヾﾉ≧∀≦)o来啊，快活啊";
+
+    let path = $.trim($('#pjax-comment-path').text());
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI",
+      appKey: "ugNSIgRXf5yc9u8YXQR6MBMu",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="/js/search.js"></script>
+
+  
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+(function ($) {
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+})(jQuery);
+
+</script>
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'tNSYWPmh1chpg4HqG7W6PbD1-MdYXbMMI',
+    app_key: 'ugNSIgRXf5yc9u8YXQR6MBMu',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://blog.unclezs.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://blog.unclezs.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+<!-- more -->
+
+
+  <tab class="l_tab">
+    
+            <a class="tab-item" href="/" id="tab-home">
+                <div class='fas fa-rss tab-icon'></div>
+                <div class="tab-text">
+                    博客
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/categories/" id="tab-categories">
+                <div class='fas fa-folder-open tab-icon'></div>
+                <div class="tab-text">
+                    分类
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/tags/" id="tab-tags">
+                <div class='fas fa-tags tab-icon'></div>
+                <div class="tab-text">
+                    标签
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/archives/" id="tab-archives">
+                <div class='fas fa-archive tab-icon'></div>
+                <div class="tab-text">
+                    归档
+                </div>
+            </a>
+    
+            <a class="tab-item" href="/about/" id="tab-about">
+                <div class='fas fa-info-circle tab-icon'></div>
+                <div class="tab-text">
+                    关于
+                </div>
+            </a>
+    
+</tab>
+</body>
+</html>

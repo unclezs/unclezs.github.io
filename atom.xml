@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Unclezs</title>
+  
+  <subtitle>what do you want for me?</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://blog.unclezs.com/"/>
+  <updated>2021-01-02T03:57:37.000Z</updated>
+  <id>https://blog.unclezs.com/</id>
+  
+  <author>
+    <name>Uncle</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>打造好用的PowerShell媲美oh-my-zsh</title>
+    <link href="https://blog.unclezs.com/%E7%8E%A9%E6%9C%BA/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/%E6%89%93%E9%80%A0%E5%A5%BD%E7%94%A8%E7%9A%84PowerShell%E5%AA%B2%E7%BE%8Eoh-my-zsh.html"/>
+    <id>https://blog.unclezs.com/%E7%8E%A9%E6%9C%BA/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/%E6%89%93%E9%80%A0%E5%A5%BD%E7%94%A8%E7%9A%84PowerShell%E5%AA%B2%E7%BE%8Eoh-my-zsh.html</id>
+    <published>2021-01-02T03:57:37.000Z</published>
+    <updated>2021-01-02T03:57:37.000Z</updated>
+    
+    <summary type="html">
+    
+      windows下面的CMD控制台很难用，也很丑，但是wndows后面出了个powershell，用着还是不错，但是还是丑，并且有些功能高效功能不具备，比如git分支显示，历史命令提示。
+    
+    </summary>
+    
+    
+      <category term="玩机" scheme="https://blog.unclezs.com/categories/%E7%8E%A9%E6%9C%BA/"/>
+    
+      <category term="效率工具" scheme="https://blog.unclezs.com/categories/%E7%8E%A9%E6%9C%BA/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="powershell" scheme="https://blog.unclezs.com/tags/powershell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用PhantomJs抓取动态网页</title>
+    <link href="https://blog.unclezs.com/%E7%88%AC%E8%99%AB/%E5%88%A9%E7%94%A8PhantomJs%E6%8A%93%E5%8F%96%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5.html"/>
+    <id>https://blog.unclezs.com/%E7%88%AC%E8%99%AB/%E5%88%A9%E7%94%A8PhantomJs%E6%8A%93%E5%8F%96%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5.html</id>
+    <published>2020-12-25T09:11:01.000Z</published>
+    <updated>2020-12-25T09:11:01.000Z</updated>
+    
+    <summary type="html">
+    
+      PhantomJS是可使用JavaScript编写脚本的无头WebKit，我们可以用来做一些爬虫工作，网页截图等，不过目前项目已经被挂起。
+    
+    </summary>
+    
+    
+      <category term="爬虫" scheme="https://blog.unclezs.com/categories/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="爬虫" scheme="https://blog.unclezs.com/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="PhantomJs" scheme="https://blog.unclezs.com/tags/PhantomJs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中的摘要算法MessageDigest</title>
+    <link href="https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95MessageDigest.html"/>
+    <id>https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95MessageDigest.html</id>
+    <published>2020-12-19T07:43:40.000Z</published>
+    <updated>2020-12-19T07:43:40.000Z</updated>
+    
+    <summary type="html">
+    
+      Java提供了一些自带的摘要算法，可以通过MessageDigest、Mac获取使用
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="基础" scheme="https://blog.unclezs.com/categories/Java/%E5%9F%BA%E7%A1%80/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java中的四种引用类型详解</title>
+    <link href="https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3.html"/>
+    <id>https://blog.unclezs.com/Java/%E5%9F%BA%E7%A1%80/Java%E4%B8%AD%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3.html</id>
+    <published>2020-12-17T05:43:33.000Z</published>
+    <updated>2020-12-17T05:43:33.000Z</updated>
+    
+    <summary type="html">
+    
+      Java中的4中引用类型分别为强引用(Strong Reference)，软引用(Soft Reference)，弱引用(Weak Reference)和虚引用(Phantom Reference)
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Java基础" scheme="https://blog.unclezs.com/categories/Java/Java%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="引用类型" scheme="https://blog.unclezs.com/tags/%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/"/>
+    
+      <category term="虚引用" scheme="https://blog.unclezs.com/tags/%E8%99%9A%E5%BC%95%E7%94%A8/"/>
+    
+      <category term="弱引用" scheme="https://blog.unclezs.com/tags/%E5%BC%B1%E5%BC%95%E7%94%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ThreadLocal与FastThreadLocal</title>
+    <link href="https://blog.unclezs.com/Java/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/ThreadLocal%E4%B8%8EFastThreadLocal.html"/>
+    <id>https://blog.unclezs.com/Java/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/ThreadLocal%E4%B8%8EFastThreadLocal.html</id>
+    <published>2020-12-17T03:54:01.000Z</published>
+    <updated>2020-12-17T03:54:01.000Z</updated>
+    
+    <summary type="html">
+    
+      聊一聊ThreadLocal的具体实现，在Netty中更快速的ThreadLocal的实现
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="并发" scheme="https://blog.unclezs.com/categories/Java/%E5%B9%B6%E5%8F%91/"/>
+    
+    
+      <category term="并发编程" scheme="https://blog.unclezs.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="threadLocal" scheme="https://blog.unclezs.com/tags/threadLocal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven之自定义插件</title>
+    <link href="https://blog.unclezs.com/Java/Maven/Maven%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6.html"/>
+    <id>https://blog.unclezs.com/Java/Maven/Maven%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6.html</id>
+    <published>2020-12-06T03:26:14.000Z</published>
+    <updated>2020-12-06T03:26:14.000Z</updated>
+    
+    <summary type="html">
+    
+      Mojo：Maven plain Old Java Object。每一个 Mojo 就是 Maven 中的一个执行目标（executable goal），而插件则是对单个或多个相关的 Mojo 做统一分发。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Maven" scheme="https://blog.unclezs.com/categories/Java/Maven/"/>
+    
+    
+      <category term="插件" scheme="https://blog.unclezs.com/tags/%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Model高效转换神器之MapStruct</title>
+    <link href="https://blog.unclezs.com/Java/%E5%B7%A5%E5%85%B7/Model%E9%AB%98%E6%95%88%E8%BD%AC%E6%8D%A2%E7%A5%9E%E5%99%A8%E4%B9%8BMapStruct.html"/>
+    <id>https://blog.unclezs.com/Java/%E5%B7%A5%E5%85%B7/Model%E9%AB%98%E6%95%88%E8%BD%AC%E6%8D%A2%E7%A5%9E%E5%99%A8%E4%B9%8BMapStruct.html</id>
+    <published>2020-12-05T10:23:56.000Z</published>
+    <updated>2020-12-05T10:23:56.000Z</updated>
+    
+    <summary type="html">
+    
+      MapStruct是一种注释处理器，用于生成类型安全，高性能和无依赖的Bean映射代码。解决了我们日常在各种Vo、Dto、Model之间的转换难题
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="工具" scheme="https://blog.unclezs.com/categories/Java/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="高效工具" scheme="https://blog.unclezs.com/tags/%E9%AB%98%E6%95%88%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="mapper" scheme="https://blog.unclezs.com/tags/mapper/"/>
+    
+      <category term="mapstruct" scheme="https://blog.unclezs.com/tags/mapstruct/"/>
+    
+      <category term="属性转换" scheme="https://blog.unclezs.com/tags/%E5%B1%9E%E6%80%A7%E8%BD%AC%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback源码分析</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/12.logback%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/12.logback%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html</id>
+    <published>2020-12-04T15:53:05.000Z</published>
+    <updated>2020-12-04T15:53:05.000Z</updated>
+    
+    <summary type="html">
+    
+      LoggerFactory.getLooger(xx.class)做了些什么事情才拿到logger的，打印途中又会发生什么事情。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback中使用MDC</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/11.logback%E4%B8%AD%E4%BD%BF%E7%94%A8MDC.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/11.logback%E4%B8%AD%E4%BD%BF%E7%94%A8MDC.html</id>
+    <published>2020-12-04T15:11:29.000Z</published>
+    <updated>2020-12-04T15:11:29.000Z</updated>
+    
+    <summary type="html">
+    
+      为了给每个请求打上唯一的标记，用户需要将上下文信息放到 MDC (Mapped Diagnostic Context 的缩写) 中。下面列出了 MDC 类中主要的部分。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback中的Filter</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/10.logback%E4%B8%AD%E7%9A%84Filter.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/10.logback%E4%B8%AD%E7%9A%84Filter.html</id>
+    <published>2020-12-04T09:18:28.000Z</published>
+    <updated>2020-12-04T09:18:28.000Z</updated>
+    
+    <summary type="html">
+    
+      logback 过滤器基于三元逻辑，允许它们组装或者链接在一起组成一个任意复杂的过滤策略。它们在很大程度上受到 Linux iptables 的启发。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback中的Layouts</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/9.logback%E4%B8%AD%E7%9A%84Layouts.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/9.logback%E4%B8%AD%E7%9A%84Layouts.html</id>
+    <published>2020-12-04T03:28:28.000Z</published>
+    <updated>2020-12-04T03:28:28.000Z</updated>
+    
+    <summary type="html">
+    
+      Layout就是负责将事件对象转换为String对象的，而且支持自定义布局，你可以把日志转换为其他格式html，json等等
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback配置中的Encoder</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/8.logback%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84Encoder.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/8.logback%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84Encoder.html</id>
+    <published>2020-12-03T14:48:15.000Z</published>
+    <updated>2020-12-03T14:48:15.000Z</updated>
+    
+    <summary type="html">
+    
+      Ecoder负责将事件转换为字节数组，并将该字节数组写出到OutputStream中
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jmeter进行并发测试之快速开始</title>
+    <link href="https://blog.unclezs.com/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/Jmeter%E8%BF%9B%E8%A1%8C%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.html"/>
+    <id>https://blog.unclezs.com/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/Jmeter%E8%BF%9B%E8%A1%8C%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.html</id>
+    <published>2020-12-03T11:22:54.000Z</published>
+    <updated>2020-12-03T11:22:54.000Z</updated>
+    
+    <summary type="html">
+    
+      并发测试工具很多，Apache Jmeter是之一，一款Java写的图形化工具。
+    
+    </summary>
+    
+    
+      <category term="性能调优" scheme="https://blog.unclezs.com/categories/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"/>
+    
+      <category term="其他" scheme="https://blog.unclezs.com/categories/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Jmeter" scheme="https://blog.unclezs.com/tags/Jmeter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback中的Appender</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/7.logback%E4%B8%AD%E7%9A%84Appender.html</id>
+    <published>2020-12-03T02:52:59.000Z</published>
+    <updated>2020-12-03T02:52:59.000Z</updated>
+    
+    <summary type="html">
+    
+      Appender最终负责输出日志记录事件。但是，他们可以将事件的实际格式委托给Layout或Encoder对象。每个布局/编码器都与一个且只有一个appender相关联。一些appender具有内置或固定的事件格式。因此，它们不需要布局/编码器。例如，SocketAppender可以简单地序列化日志记录事件，然后再通过网络传输它们
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback配置文件语法</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/6.logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%AD%E6%B3%95.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/6.logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%AD%E6%B3%95.html</id>
+    <published>2020-12-02T16:14:07.000Z</published>
+    <updated>2020-12-02T16:14:07.000Z</updated>
+    
+    <summary type="html">
+    
+      因为logback的配置十分灵活，所以无法通过一个DTD文件或者XML Schema来指定允许的语法。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback的配置</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/5.logback%E7%9A%84%E9%85%8D%E7%BD%AE.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/5.logback%E7%9A%84%E9%85%8D%E7%BD%AE.html</id>
+    <published>2020-12-02T11:16:54.000Z</published>
+    <updated>2020-12-02T11:16:54.000Z</updated>
+    
+    <summary type="html">
+    
+      logback的一些基础配置，如何配置加载，自动更新，自动注册关闭hook等
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback的架构</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/4.logback%E7%9A%84%E6%9E%B6%E6%9E%84.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/4.logback%E7%9A%84%E6%9E%B6%E6%9E%84.html</id>
+    <published>2020-12-02T06:54:18.000Z</published>
+    <updated>2020-12-02T06:54:18.000Z</updated>
+    
+    <summary type="html">
+    
+      当前logback被分为了三个模块，logback-core、logback-classic、logback-access。还有Logger的继承，Appender的累加，Layout的格式化器。一个log执行到底执行的了些什么
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback介绍</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/3.logback%E4%BB%8B%E7%BB%8D.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/3.logback%E4%BB%8B%E7%BB%8D.html</id>
+    <published>2020-12-02T06:21:57.000Z</published>
+    <updated>2020-12-02T06:21:57.000Z</updated>
+    
+    <summary type="html">
+    
+      logback是继log4j之后的一个日志框架，比其他现存的日志框架更快占用空间更小，有时候差距很大，还提供了一些其他日志框架没有的功能，作者Ceki Gülcü,也是log4j的开发者之一。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>两种常用日志框架搭配快速上手</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/2.%E4%B8%A4%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E6%90%AD%E9%85%8D%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/2.%E4%B8%A4%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E6%90%AD%E9%85%8D%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html</id>
+    <published>2020-12-02T06:14:42.000Z</published>
+    <updated>2020-12-02T06:14:42.000Z</updated>
+    
+    <summary type="html">
+    
+      两种常用日志框架搭配快速上手，分别通过两个简单的demo快速上手
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>好看的彩色日志输出</title>
+    <link href="https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/13.%E5%A5%BD%E7%9C%8B%E7%9A%84%E5%BD%A9%E8%89%B2%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA.html"/>
+    <id>https://blog.unclezs.com/Java/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/13.%E5%A5%BD%E7%9C%8B%E7%9A%84%E5%BD%A9%E8%89%B2%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA.html</id>
+    <published>2020-12-02T06:09:55.000Z</published>
+    <updated>2020-12-02T06:09:55.000Z</updated>
+    
+    <summary type="html">
+    
+      如何在控制台打印出彩色日志
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://blog.unclezs.com/categories/Java/"/>
+    
+      <category term="Logback" scheme="https://blog.unclezs.com/categories/Java/Logback/"/>
+    
+    
+      <category term="logback" scheme="https://blog.unclezs.com/tags/logback/"/>
+    
+      <category term="log" scheme="https://blog.unclezs.com/tags/log/"/>
+    
+  </entry>
+  
+</feed>
